@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Studio Concept - Menu Spécial</title>
+    <!-- Telegram WebApp SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --tg-bg: var(--tg-theme-bg-color, #0a0a0c);
+            --tg-text: var(--tg-theme-text-color, #ffffff);
+            --tg-hint: var(--tg-theme-hint-color, rgba(255,255,255,0.4));
+            --tg-accent: var(--tg-theme-button-color, #7c3aed);
+            --glass: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            color: var(--tg-text);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .iphone-shell {
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--tg-bg);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (min-width: 500px) {
+            .iphone-shell {
+                width: 393px; 
+                height: 852px; 
+                border: 12px solid #1a1a1a;
+                border-radius: 55px;
+                box-shadow: 0 0 0 2px #333, 0 50px 100px -20px rgba(0,0,0,0.8);
+            }
+            .iphone-shell::after {
+                content: '';
+                position: absolute;
+                top: 12px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 100px;
+                height: 30px;
+                background: #000;
+                border-radius: 20px;
+                z-index: 1000;
+            }
+        }
+
+        .page {
+            position: absolute;
+            inset: 0;
+            transition: transform 0.6s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.4s ease;
+            z-index: 10;
+            background: var(--tg-bg);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .page-hidden-right { transform: translateX(100%); opacity: 0; pointer-events: none; }
+        .page-active { transform: translateX(0); opacity: 1; pointer-events: auto; }
+
+        .scroll-container {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 120px;
+            overscroll-behavior: contain;
+        }
+
+        .glass {
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+        }
+
+        .tab-indicator {
+            transition: all 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+        }
+
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 85px;
+            z-index: 100;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: env(safe-area-inset-bottom);
+            background: rgba(10,10,12,0.85);
+            backdrop-filter: blur(15px);
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            color: var(--tg-hint);
+            transition: color 0.3s ease;
+        }
+
+        .nav-item.active { color: var(--tg-text); }
+
+        .qty-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            font-weight: 800;
+            transition: all 0.2s;
+        }
+
+        .qty-btn:active { background: #fff; color: #000; }
+
+        ::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="iphone-shell">
+        
+        <!-- WELCOME PAGE -->
+        <section id="page-welcome" class="page page-active flex flex-col justify-end p-8 pb-32">
+            <div class="absolute inset-0 z-0">
+                <img src="https://images.unsplash.com/photo-1542125387-c71274d94f0a?q=80&w=1000&auto=format&fit=crop" 
+                     class="w-full h-full object-cover opacity-60" alt="Hero">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0c] via-transparent to-transparent"></div>
+            </div>
+            
+            <div class="relative z-10 space-y-8">
+                <div class="space-y-2">
+                    <h1 class="text-6xl font-extrabold tracking-tighter leading-none uppercase italic">Menu<br>Spécial</h1>
+                    <p class="text-white/40 text-[10px] font-bold uppercase tracking-[0.4em] ml-1">Archive Curation // 2026</p>
+                </div>
+                <button onclick="changePage('shop')" class="w-full bg-white text-black py-5 rounded-2xl font-black uppercase tracking-widest text-[11px]">
+                    Accéder au Menu
+                </button>
+            </div>
+        </section>
+
+        <!-- SHOP PAGE -->
+        <section id="page-shop" class="page page-hidden-right">
+            <nav class="p-6 pb-2 flex justify-between items-center bg-[#0a0a0c]/80 backdrop-blur-xl z-50">
+                <div>
+                    <h2 class="text-xl font-black tracking-tighter uppercase leading-none italic">Studio</h2>
+                    <span class="text-[8px] text-purple-500 uppercase font-black tracking-widest">Premium Selection</span>
+                </div>
+                <div class="relative" onclick="toggleCart()">
+                    <div class="glass p-3 rounded-full">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                    </div>
+                    <span id="cart-badge" class="hidden absolute -top-1 -right-1 bg-white text-black text-[9px] font-black w-4 h-4 flex items-center justify-center rounded-full">0</span>
+                </div>
+            </nav>
+
+            <div class="scroll-container px-6">
+                <!-- Morphing Categories -->
+                <div class="sticky top-0 z-50 py-4 bg-[#0a0a0c]">
+                    <div class="relative flex gap-1 glass p-1 rounded-full">
+                        <button onclick="switchCategory(this, 'neige')" class="relative flex-1 py-2.5 text-[10px] font-black z-10 text-white transition-all uppercase tracking-widest">Neige</button>
+                        <button onclick="switchCategory(this, 'beuh')" class="relative flex-1 py-2.5 text-[10px] font-black z-10 text-white/40 transition-all uppercase tracking-widest">Beuh</button>
+                        <button onclick="switchCategory(this, 'shit')" class="relative flex-1 py-2.5 text-[10px] font-black z-10 text-white/40 transition-all uppercase tracking-widest">Shit</button>
+                        <div id="tab-indicator" class="tab-indicator absolute inset-y-1 left-1 bg-white rounded-full z-0" style="width: 32%; transform: translateX(0);"></div>
+                    </div>
+                </div>
+
+                <!-- Product Grid -->
+                <div id="product-grid" class="grid grid-cols-2 gap-3 pb-32">
+                    <!-- Products Injected Here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- BOTTOM NAV -->
+        <nav class="bottom-nav glass">
+            <button onclick="changePage('welcome')" class="nav-item active" id="nav-home">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                <span class="text-[9px] font-black uppercase tracking-widest">Menu</span>
+            </button>
+            <button onclick="changePage('shop')" class="nav-item" id="nav-shop">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                <span class="text-[9px] font-black uppercase tracking-widest">Shop</span>
+            </button>
+            <button onclick="toggleCart()" class="nav-item">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                <span class="text-[9px] font-black uppercase tracking-widest">Bag</span>
+            </button>
+        </nav>
+
+        <!-- CART DRAWER -->
+        <div id="cart-drawer" class="fixed inset-0 z-[200] translate-y-full transition-transform duration-500 flex flex-col">
+            <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="toggleCart()"></div>
+            <div class="mt-auto glass h-[80%] rounded-t-[3.5rem] p-8 pb-12 flex flex-col relative z-10 border-t border-white/20">
+                <div class="w-12 h-1.5 bg-white/10 rounded-full mx-auto mb-10"></div>
+                <h2 class="text-4xl font-black uppercase tracking-tighter mb-8 italic">Le Panier</h2>
+                <div id="cart-items" class="flex-grow overflow-y-auto space-y-4 no-scrollbar"></div>
+                <div class="pt-8 mt-6 border-t border-white/10">
+                    <div class="flex justify-between items-end mb-8">
+                        <span class="text-white/30 text-[10px] font-black uppercase tracking-widest">Total Sélection</span>
+                        <span id="cart-total" class="text-4xl font-black">0€</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        tg.enableClosingConfirmation();
+
+        const store = {
+            neige: [
+                { id: 'n1', name: "Neige 1.5g", price: 50, img: "https://images.unsplash.com/photo-1542125387-c71274d94f0a?w=400" },
+                { id: 'n2', name: "Neige 5g", price: 150, img: "https://images.unsplash.com/photo-1517404212773-8bc68a995393?w=400" },
+                { id: 'n3', name: "Neige 10g", price: 280, img: "https://images.unsplash.com/photo-1518005020250-675c0c0d38b7?w=400" },
+                { id: 'n4', name: "Neige 50g", price: 1200, img: "https://images.unsplash.com/photo-1418985991508-e473a329df2e?w=400" }
+            ],
+            beuh: [
+                { id: 'b1', name: "Verte 10g", price: 70, img: "https://images.unsplash.com/photo-1533240332313-0db49b459ad6?w=400" },
+                { id: 'b2', name: "Verte 25g", price: 150, img: "https://images.unsplash.com/photo-1550989460-0adf9ea622e2?w=400" },
+                { id: 'b3', name: "Verte 50g", price: 250, img: "https://images.unsplash.com/photo-1589121817094-192cc515f403?w=400" },
+                { id: 'b4', name: "Rare 100g", price: 450, img: "https://images.unsplash.com/photo-1471193945509-9ad0617afabf?w=400" }
+            ],
+            shit: [
+                { id: 's1', name: "Mimosa 10g", price: 50, img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400" },
+                { id: 's2', name: "Frozen 90U 10g", price: 90, img: "https://images.unsplash.com/photo-1563298723-dcfebaa392e3?w=400" },
+                { id: 's3', name: "Frozen 160U 10g", price: 130, img: "https://images.unsplash.com/photo-1444212477490-ca407925329e?w=400" },
+                { id: 's4', name: "Mimosa 50g", price: 130, img: "https://images.unsplash.com/photo-1579306194872-64d3b7bac4c2?w=400" }
+            ]
+        };
+
+        let cart = [];
+        let currentCat = 'neige';
+
+        function changePage(id) {
+            document.querySelectorAll('.page').forEach(p => p.className = 'page page-hidden-right');
+            document.getElementById(`page-${id}`).className = 'page page-active';
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            const navId = id === 'welcome' ? 'home' : id;
+            document.getElementById(`nav-${navId}`).classList.add('active');
+
+            if(id === 'shop') {
+                tg.BackButton.show();
+                tg.BackButton.onClick(() => changePage('welcome'));
+            } else {
+                tg.BackButton.hide();
+            }
+        }
+
+        function switchCategory(el, cat) {
+            currentCat = cat;
+            document.querySelectorAll('#page-shop button.z-10').forEach(b => b.classList.replace('text-white', 'text-white/40'));
+            el.classList.replace('text-white/40', 'text-white');
+            const indicator = document.getElementById('tab-indicator');
+            indicator.style.width = `${el.offsetWidth}px`;
+            indicator.style.transform = `translateX(${el.offsetLeft - el.parentElement.offsetLeft}px)`;
+            renderProducts(cat);
+            tg.HapticFeedback.impactOccurred('light');
+        }
+
+        function renderProducts(cat) {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = store[cat].map(p => {
+                const cartItem = cart.find(c => c.id === p.id);
+                const qty = cartItem ? cartItem.qty : 0;
+
+                return `
+                    <div class="product-card group glass p-3 rounded-[2rem]">
+                        <div class="aspect-[1/1] rounded-2xl overflow-hidden mb-3 relative bg-black/20">
+                            <img src="${p.img}" class="w-full h-full object-cover grayscale transition-all duration-700 group-active:grayscale-0">
+                        </div>
+                        <div class="px-1">
+                            <h3 class="text-[10px] font-black uppercase tracking-tight leading-tight mb-2 truncate">${p.name}</h3>
+                            <div class="flex items-center justify-between">
+                                <p class="text-sm font-black text-purple-400">${p.price}€</p>
+                                
+                                ${qty === 0 ? `
+                                    <button onclick="changeQty('${p.id}', 1)" class="w-8 h-8 bg-white text-black rounded-lg flex items-center justify-center font-bold">+</button>
+                                ` : `
+                                    <div class="flex items-center gap-2">
+                                        <button onclick="changeQty('${p.id}', -1)" class="w-7 h-7 bg-white/10 rounded-lg flex items-center justify-center text-[10px] font-bold">-</button>
+                                        <span class="text-[10px] font-black">${qty}</span>
+                                        <button onclick="changeQty('${p.id}', 1)" class="w-7 h-7 bg-white/10 rounded-lg flex items-center justify-center text-[10px] font-bold">+</button>
+                                    </div>
+                                `}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function changeQty(id, delta) {
+            let item = cart.find(i => i.id === id);
+            
+            if(!item && delta > 0) {
+                // Find in store to add
+                for(let cat in store) {
+                    const found = store[cat].find(p => p.id === id);
+                    if(found) {
+                        item = {...found, qty: 1};
+                        cart.push(item);
+                        break;
+                    }
+                }
+            } else if(item) {
+                item.qty += delta;
+                if(item.qty <= 0) cart = cart.filter(i => i.id !== id);
+            }
+            
+            tg.HapticFeedback.selectionChanged();
+            updateCart();
+            renderProducts(currentCat);
+        }
+
+        function updateCart() {
+            const count = cart.reduce((s, i) => s + i.qty, 0);
+            const total = cart.reduce((s, i) => s + (i.price * i.qty), 0);
+            const badge = document.getElementById('cart-badge');
+            badge.innerText = count;
+            badge.classList.toggle('hidden', count === 0);
+            document.getElementById('cart-total').innerText = `${total}€`;
+
+            if(count > 0) {
+                tg.MainButton.text = `COMMANDER (${total}€)`;
+                tg.MainButton.show();
+                tg.MainButton.onClick(checkout);
+            } else {
+                tg.MainButton.hide();
+            }
+
+            const container = document.getElementById('cart-items');
+            if(cart.length === 0) {
+                container.innerHTML = `<div class="py-20 text-center text-white/10 italic">Le panier est vide.</div>`;
+                return;
+            }
+            container.innerHTML = cart.map(item => `
+                <div class="flex items-center gap-5 glass p-5 rounded-[2rem]">
+                    <img src="${item.img}" class="w-16 h-16 object-cover rounded-2xl grayscale">
+                    <div class="flex-grow">
+                        <h4 class="text-xs font-black uppercase tracking-tight">${item.name}</h4>
+                        <span class="text-xs font-bold text-white/30">${item.price}€</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <button onclick="changeQty('${item.id}', -1)" class="qty-btn font-bold">-</button>
+                        <span class="text-xs font-black">${item.qty}</span>
+                        <button onclick="changeQty('${item.id}', 1)" class="qty-btn font-bold">+</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleCart() {
+            document.getElementById('cart-drawer').classList.toggle('translate-y-full');
+            tg.HapticFeedback.impactOccurred('light');
+        }
+
+        function checkout() {
+            if(cart.length === 0) return;
+            tg.showConfirm("Confirmer votre sélection ?", (ok) => {
+                if(ok) {
+                    tg.showAlert("Merci ! Notre équipe vous contactera en privé sur Telegram pour finaliser.");
+                    cart = [];
+                    updateCart();
+                    renderProducts(currentCat);
+                    if(!document.getElementById('cart-drawer').classList.contains('translate-y-full')) toggleCart();
+                }
+            });
+        }
+
+        window.onload = () => {
+            const tab = document.querySelector('#page-shop button.z-10');
+            switchCategory(tab, 'neige');
+        };
+    </script>
+</body>
+</html>
