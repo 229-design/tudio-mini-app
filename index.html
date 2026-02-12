@@ -10,24 +10,22 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
         body { background: #000; color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; height: 100vh; }
         
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 28px; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .active-page { display: flex !important; animation: fadeIn 0.4s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .detail-pane { max-height: 0; opacity: 0; overflow: hidden; transition: all 0.5s ease; }
-        .expanded .detail-pane { max-height: 1000px; opacity: 1; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.05); }
-        .expanded .chevron { transform: rotate(180deg); }
+        .expanded .detail-pane { max-height: 300px; opacity: 1; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1); }
         
-        .card-img { position: absolute; inset: 0; width: 100%; h-full; object-fit: cover; opacity: 0.25; transition: opacity 0.5s; }
-        .glass:hover .card-img { opacity: 0.5; }
+        .card-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.3; transition: all 0.6s ease; }
+        .expanded .card-img { opacity: 0.15; filter: blur(4px); }
+        .glass:hover .card-img { opacity: 0.5; transform: scale(1.05); }
 
         ::-webkit-scrollbar { display: none; }
         .nav-btn.active { color: #fff; }
         .nav-btn.active i { transform: translateY(-3px); filter: drop-shadow(0 0 8px #fff); }
 
-        /* Calendar */
         .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 12px; cursor: pointer; font-size: 11px; font-weight: bold; }
-        .cal-day:hover { background: rgba(255,255,255,0.1); }
         .cal-selected { background: #fff !important; color: #000 !important; }
     </style>
 </head>
@@ -35,189 +33,209 @@
 
     <div id="basketOverlay" class="fixed inset-0 z-[100] hidden flex-col bg-black/95 p-6 overflow-y-auto">
         <div class="flex justify-between items-center mb-8">
-            <h2 class="text-2xl font-black uppercase italic tracking-tighter">Panier Business</h2>
-            <button onclick="toggleBasket()" class="h-10 w-10 glass flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            <h2 class="text-2xl font-black uppercase italic italic">Votre Panier</h2>
+            <button onclick="toggleBasket()" class="h-12 w-12 glass flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div id="basketItems" class="space-y-3 mb-8"></div>
         <div class="glass p-6 mt-auto">
             <div class="flex justify-between mb-4 font-black text-xl italic uppercase"><span>Total</span><span id="basketTotal">0€</span></div>
-            <button onclick="processPayment()" class="w-full py-5 bg-white text-black font-black uppercase tracking-widest rounded-2xl shadow-xl">Procéder au Paiement</button>
+            <button onclick="processPayment()" class="w-full py-5 bg-white text-black font-black uppercase tracking-widest rounded-2xl">Payer Maintenant</button>
         </div>
     </div>
 
     <div id="bookingOverlay" class="fixed inset-0 z-[100] hidden flex-col bg-black/95 p-6 overflow-y-auto">
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-black uppercase italic">Réserver un Meeting</h2>
+            <h2 class="text-xl font-black uppercase italic italic">Réserver un Meet</h2>
             <button onclick="toggleBooking()" class="h-10 w-10 glass flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
         </div>
-        <div class="glass p-6 mb-4 text-center">
-            <div class="flex justify-between mb-6 font-bold uppercase text-[10px] tracking-widest">
-                <span>Février 2026</span>
-                <div class="flex gap-4"><i class="fa-solid fa-angle-left"></i><i class="fa-solid fa-angle-right"></i></div>
-            </div>
-            <div class="grid grid-cols-7 gap-2 mb-4">
-                <div class="text-[8px] opacity-40 uppercase">Lu</div><div class="text-[8px] opacity-40 uppercase">Ma</div><div class="text-[8px] opacity-40 uppercase">Me</div><div class="text-[8px] opacity-40 uppercase">Je</div><div class="text-[8px] opacity-40 uppercase">Ve</div><div class="text-[8px] opacity-40 uppercase">Sa</div><div class="text-[8px] opacity-40 uppercase">Di</div>
-                <div class="opacity-10 cal-day">26</div><div class="opacity-10 cal-day">27</div><div class="opacity-10 cal-day">28</div><div class="cal-day">1</div><div class="cal-day">2</div><div class="cal-day">3</div><div class="cal-day">4</div>
-                <div class="cal-day">5</div><div class="cal-day">6</div><div class="cal-day">7</div><div class="cal-day">8</div><div class="cal-day">9</div><div class="cal-day">10</div><div class="cal-day">11</div>
+        <div class="glass p-6">
+            <div class="grid grid-cols-7 gap-2 mb-4 text-center">
                 <div class="cal-day">12</div><div class="cal-day">13</div><div class="cal-day">14</div><div class="cal-day cal-selected">15</div><div class="cal-day">16</div><div class="cal-day">17</div><div class="cal-day">18</div>
             </div>
-            <div class="grid grid-cols-2 gap-2 mt-6">
-                <button class="glass py-3 text-[10px] font-bold uppercase border-white/20">09:30 AM</button>
-                <button class="glass py-3 text-[10px] font-bold uppercase bg-white text-black">02:00 PM</button>
-            </div>
-            <button onclick="confirmMeet()" class="w-full py-4 bg-emerald-500 text-black font-black uppercase text-xs mt-6 rounded-xl">Confirmer le Meeting</button>
+            <button onclick="confirmMeet()" class="w-full py-4 bg-emerald-500 text-black font-black uppercase text-xs rounded-xl">Confirmer le RDV</button>
         </div>
     </div>
 
     <header class="p-6 flex justify-between items-center z-50">
         <div class="flex flex-col">
-            <span class="text-[10px] font-black tracking-[0.5em] uppercase">Pixel & Brush</span>
-            <span class="text-[7px] text-slate-500 uppercase tracking-widest mt-1 italic">Strasbourg • Zurich • Dubai</span>
+            <span class="text-[10px] font-black tracking-[0.6em] uppercase">Pixel & Brush</span>
+            <span class="text-[7px] text-slate-500 uppercase tracking-widest mt-1">Strasbourg • Zurich • Dubai</span>
         </div>
         <button onclick="toggleBasket()" class="relative glass h-10 w-10 flex items-center justify-center">
-            <i class="fa-solid fa-basket-shopping text-xs"></i>
+            <i class="fa-solid fa-cart-shopping text-xs"></i>
             <span id="basketCount" class="absolute -top-1 -right-1 bg-white text-black text-[8px] font-black h-4 w-4 rounded-full flex items-center justify-center">0</span>
         </button>
     </header>
 
-    <main class="flex-grow relative px-4 overflow-y-auto pb-40">
+    <main class="flex-grow relative px-4 overflow-y-auto pb-44">
         
-        <section id="page1" class="page active-page flex-col items-center justify-center text-center h-full pt-4">
+        <section id="page1" class="page active-page flex-col items-center justify-center text-center h-full">
             <div class="glass p-1 w-full mb-8 relative overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?q=80&w=600" class="card-img opacity-60">
-                <div class="relative py-24 flex flex-col items-center">
-                    <h1 class="text-6xl font-black uppercase leading-[0.8] tracking-tighter mb-4 italic">Next<br>Core.</h1>
-                    <p class="text-[9px] uppercase tracking-[0.5em] text-white/50">Pixel & Brush v3.0 Digital</p>
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600" class="card-img opacity-50">
+                <div class="relative py-28 px-6">
+                    <h1 class="text-6xl font-black uppercase leading-[0.8] tracking-tighter mb-4 italic italic">Ultra<br>App v3.</h1>
+                    <p class="text-[9px] uppercase tracking-[0.4em] text-white/40">Native Power. Global Design.</p>
                 </div>
             </div>
-            <button onclick="showPage('page2', document.getElementById('nav2'))" class="bg-white text-black w-full py-5 rounded-2xl font-black text-xs uppercase tracking-widest shadow-2xl">Lancer l'Interface</button>
+            <button onclick="showPage('page2', document.getElementById('nav2'))" class="bg-white text-black w-full py-5 rounded-2xl font-black text-xs uppercase tracking-widest">Entrer</button>
         </section>
 
         <section id="page2" class="page hidden flex-col space-y-4 pt-6">
-            <h2 class="text-[10px] font-black uppercase text-slate-500 tracking-[0.4em]">Main Dashboard</h2>
-            <div onclick="showPage('page4', document.getElementById('nav4'))" class="glass h-32 relative overflow-hidden group">
-                <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=500" class="card-img">
-                <div class="relative p-6 h-full flex flex-col justify-end">
-                    <h3 class="font-black uppercase text-xl italic">Solutions Demos</h3>
-                    <p class="text-[8px] text-slate-400 italic">E-Shop • Resto • Booking • Custom</p>
-                </div>
-            </div>
-            <div onclick="showPage('page3', document.getElementById('nav3'))" class="glass h-32 relative overflow-hidden group">
+            <h2 class="text-[10px] font-black uppercase text-slate-500 tracking-[0.4em]">Main Control</h2>
+            <div onclick="showPage('page3')" class="glass h-44 relative overflow-hidden group">
                 <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=500" class="card-img">
-                <div class="relative p-6 h-full flex flex-col justify-end">
-                    <h3 class="font-black uppercase text-xl italic text-blue-400">Arsenal Tech</h3>
-                    <p class="text-[8px] text-slate-400 italic">10 Services Innovants</p>
+                <div class="relative p-8 h-full flex flex-col justify-end">
+                    <h3 class="text-2xl font-black uppercase italic italic">Arsenal Tech</h3>
+                    <p class="text-[8px] text-slate-400 uppercase tracking-widest">10 Power Services</p>
+                </div>
+            </div>
+            <div onclick="showPage('page4')" class="glass h-44 relative overflow-hidden group">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=500" class="card-img">
+                <div class="relative p-8 h-full flex flex-col justify-end">
+                    <h3 class="text-2xl font-black uppercase italic italic">Démos Solutions</h3>
+                    <p class="text-[8px] text-slate-400 uppercase tracking-widest">Sandbox Interactive</p>
                 </div>
             </div>
         </section>
 
-        <section id="page3" class="page hidden flex-col space-y-4 pt-6 pb-20">
-            <h2 class="text-[10px] font-black uppercase text-slate-500 tracking-[0.4em]">10 Services de Pointe</h2>
-            <div class="grid grid-cols-1 gap-4">
-                <div class="glass h-28 relative overflow-hidden p-6 flex flex-col justify-end group border-l-4 border-blue-500" onclick="this.classList.toggle('expanded')">
-                    <i class="fa-solid fa-basket-shopping absolute top-6 right-6 text-2xl opacity-20"></i>
-                    <h3 class="font-black text-xs uppercase italic">1. Checkout Basket Elite</h3>
-                    <div class="detail-pane text-[9px] text-slate-400">Tunnel de vente natif ultra-rapide optimisé pour le mobile.</div>
+        <section id="page3" class="page hidden flex-col space-y-4 pt-6">
+            <h2 class="text-[10px] font-black uppercase text-slate-500 tracking-[0.4em]">Arsenal Technologique</h2>
+            
+            <div class="glass relative overflow-hidden p-8 group border-b-4 border-blue-500" onclick="this.classList.toggle('expanded')">
+                <img src="https://images.unsplash.com/photo-1556742044-3c52d6e88c02?q=80&w=400" class="card-img">
+                <div class="relative">
+                    <h3 class="font-black text-lg uppercase italic italic">1. Checkout Basket</h3>
+                    <div class="detail-pane text-[10px] text-slate-400 leading-relaxed uppercase tracking-wider">
+                        Paiement natif en 1 clic. Support Apple Pay, Google Pay et Stripe sécurisé.
+                        <button onclick="addToBasket('Service Checkout', 500)" class="mt-4 w-full py-2 bg-blue-500 text-white font-black text-[8px] rounded-lg uppercase">Ajouter au Pack</button>
+                    </div>
                 </div>
-                <div class="glass h-28 relative overflow-hidden p-6 flex flex-col justify-end group border-l-4 border-purple-500" onclick="this.classList.toggle('expanded')">
-                    <i class="fa-solid fa-calendar-days absolute top-6 right-6 text-2xl opacity-20"></i>
-                    <h3 class="font-black text-xs uppercase italic">2. In-App Booking Calendar</h3>
-                    <div class="detail-pane text-[9px] text-slate-400">Calendrier interactif pour réservations directes sans redirection.</div>
+            </div>
+
+            <div class="glass relative overflow-hidden p-8 group border-b-4 border-purple-500" onclick="this.classList.toggle('expanded')">
+                <img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?q=80&w=400" class="card-img">
+                <div class="relative">
+                    <h3 class="font-black text-lg uppercase italic italic">2. In-App Booking</h3>
+                    <div class="detail-pane text-[10px] text-slate-400 leading-relaxed uppercase tracking-wider">
+                        Calendrier temps réel synchronisé Google/Meet. Réservation instantanée.
+                        <button onclick="toggleBooking()" class="mt-4 w-full py-2 bg-purple-500 text-white font-black text-[8px] rounded-lg uppercase">Tester le Calendrier</button>
+                    </div>
                 </div>
-                <div class="glass h-28 relative overflow-hidden p-6 flex flex-col justify-end group border-l-4 border-emerald-500" onclick="this.classList.toggle('expanded')">
-                    <i class="fa-solid fa-credit-card absolute top-6 right-6 text-2xl opacity-20"></i>
-                    <h3 class="font-black text-xs uppercase italic">3. Multi-Gateway Payment</h3>
-                    <div class="detail-pane text-[9px] text-slate-400">Support Stripe, Crypto (TON/USDT) et Apple Pay natif.</div>
+            </div>
+
+            <div class="glass relative overflow-hidden p-8 group border-b-4 border-emerald-500" onclick="this.classList.toggle('expanded')">
+                <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=400" class="card-img">
+                <div class="relative">
+                    <h3 class="font-black text-lg uppercase italic italic">3. Multi-Crypto Pay</h3>
+                    <div class="detail-pane text-[10px] text-slate-400 leading-relaxed uppercase tracking-wider">
+                        Intégration TON Wallet & USDT pour paiements décentralisés.
+                    </div>
                 </div>
-                <div class="glass h-28 relative overflow-hidden p-6 flex flex-col justify-end group border-l-4 border-pink-500" onclick="this.classList.toggle('expanded')">
-                    <i class="fa-solid fa-map-location-dot absolute top-6 right-6 text-2xl opacity-20"></i>
-                    <h3 class="font-black text-xs uppercase italic">4. Interactive GPS Maps</h3>
-                    <div class="detail-pane text-[9px] text-slate-400">Cartographie interactive avec guidage client temps réel.</div>
-                </div>
-                <div class="glass h-28 relative overflow-hidden p-6 flex flex-col justify-end group border-l-4 border-orange-500" onclick="this.classList.toggle('expanded')">
-                    <i class="fa-solid fa-database absolute top-6 right-6 text-2xl opacity-20"></i>
-                    <h3 class="font-black text-xs uppercase italic">5. Data Sync & Excel</h3>
-                    <div class="detail-pane text-[9px] text-slate-400">Synchronisation bidirectionnelle avec vos fichiers Excel pros.</div>
-                </div>
-                <div class="glass h-28 relative overflow-hidden p-6 flex flex-col justify-end group border-l-4 border-white/40" onclick="this.classList.toggle('expanded')">
-                    <i class="fa-solid fa-bell absolute top-6 right-6 text-2xl opacity-20"></i>
-                    <h3 class="font-black text-xs uppercase italic">6. Push Notifications</h3>
-                    <div class="detail-pane text-[9px] text-slate-400">Alertes sur écran de verrouillage basées sur le comportement.</div>
-                </div>
-                <div class="glass h-28 relative overflow-hidden p-6 flex flex-col justify-end group border-l-4 border-cyan-500" onclick="this.classList.toggle('expanded')">
-                    <i class="fa-solid fa-qrcode absolute top-6 right-6 text-2xl opacity-20"></i>
-                    <h3 class="font-black text-xs uppercase italic">7. QR Code Scanner</h3>
-                    <div class="detail-pane text-[9px] text-slate-400">Scanner intégré pour points de vente et menus digitaux.</div>
-                </div>
-                <div class="glass h-28 relative overflow-hidden p-6 flex flex-col justify-end group border-l-4 border-indigo-500" onclick="this.classList.toggle('expanded')">
-                    <i class="fa-solid fa-robot absolute top-6 right-6 text-2xl opacity-20"></i>
-                    <h3 class="font-black text-xs uppercase italic">8. AI Smart Assistant</h3>
-                    <div class="detail-pane text-[9px] text-slate-400">Chatbot entraîné sur vos données pour aide à la vente 24/7.</div>
-                </div>
-                <div class="glass h-28 relative overflow-hidden p-6 flex flex-col justify-end group border-l-4 border-red-500" onclick="this.classList.toggle('expanded')">
-                    <i class="fa-solid fa-palette absolute top-6 right-6 text-2xl opacity-20"></i>
-                    <h3 class="font-black text-xs uppercase italic">9. Branding Engine</h3>
-                    <div class="detail-pane text-[9px] text-slate-400">Customisation visuelle totale à l'image de votre studio.</div>
-                </div>
-                <div class="glass h-28 relative overflow-hidden p-6 flex flex-col justify-end group border-l-4 border-yellow-500" onclick="this.classList.toggle('expanded')">
-                    <i class="fa-solid fa-images absolute top-6 right-6 text-2xl opacity-20"></i>
-                    <h3 class="font-black text-xs uppercase italic">10. Ultra-HD Gallery</h3>
-                    <div class="detail-pane text-[9px] text-slate-400">Catalogue visuel haute performance avec zoom immersif.</div>
-                </div>
+            </div>
+
+            <div class="glass relative overflow-hidden p-8 group border-b-4 border-orange-500" onclick="this.classList.toggle('expanded')">
+                <img src="https://images.unsplash.com/photo-1543286386-713bdd548da4?q=80&w=400" class="card-img">
+                <div class="relative"><h3 class="font-black text-lg uppercase italic italic">4. Data Sync Excel</h3><div class="detail-pane text-[10px] text-slate-400">Sync auto Google Sheets.</div></div>
+            </div>
+
+            <div class="glass relative overflow-hidden p-8 group border-b-4 border-pink-500" onclick="this.classList.toggle('expanded')">
+                <img src="https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?q=80&w=400" class="card-img">
+                <div class="relative"><h3 class="font-black text-lg uppercase italic italic">5. AI Smart Assistant</h3><div class="detail-pane text-[10px] text-slate-400">LLM entraîné sur votre stock.</div></div>
+            </div>
+
+            <div class="glass relative overflow-hidden p-8 group border-b-4 border-cyan-500" onclick="this.classList.toggle('expanded')">
+                <img src="https://images.unsplash.com/photo-1524666643752-b381ec00effe?q=80&w=400" class="card-img">
+                <div class="relative"><h3 class="font-black text-lg uppercase italic italic">6. Dynamic Maps</h3><div class="detail-pane text-[10px] text-slate-400">GPS & Geofencing.</div></div>
+            </div>
+
+            <div class="glass relative overflow-hidden p-8 group border-b-4 border-yellow-500" onclick="this.classList.toggle('expanded')">
+                <img src="https://images.unsplash.com/photo-1493612276216-ee3925520721?q=80&w=400" class="card-img">
+                <div class="relative"><h3 class="font-black text-lg uppercase italic italic">7. QR Menu System</h3><div class="detail-pane text-[10px] text-slate-400">Scan & Pay table logic.</div></div>
+            </div>
+
+            <div class="glass relative overflow-hidden p-8 group border-b-4 border-indigo-500" onclick="this.classList.toggle('expanded')">
+                <img src="https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=400" class="card-img">
+                <div class="relative"><h3 class="font-black text-lg uppercase italic italic">8. Push Engine</h3><div class="detail-pane text-[10px] text-slate-400">Notifications Cloud instantanées.</div></div>
+            </div>
+
+            <div class="glass relative overflow-hidden p-8 group border-b-4 border-white/50" onclick="this.classList.toggle('expanded')">
+                <img src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=400" class="card-img">
+                <div class="relative"><h3 class="font-black text-lg uppercase italic italic">9. Branding Custom</h3><div class="detail-pane text-[10px] text-slate-400">Design UI 100% sur mesure.</div></div>
+            </div>
+
+            <div class="glass relative overflow-hidden p-8 group border-b-4 border-red-500" onclick="this.classList.toggle('expanded')">
+                <img src="https://images.unsplash.com/photo-1482062364825-616fd23b8fc1?q=80&w=400" class="card-img">
+                <div class="relative"><h3 class="font-black text-lg uppercase italic italic">10. Analytics Pro</h3><div class="detail-pane text-[10px] text-slate-400">Dashboard de suivi ventes.</div></div>
             </div>
         </section>
 
-        <section id="page4" class="page hidden flex-col space-y-4 pt-6">
+        <section id="page4" class="page hidden flex-col space-y-6 pt-6">
             <h2 class="text-[10px] font-black uppercase text-slate-500 tracking-[0.4em]">Sandbox Solutions</h2>
-            <div class="glass p-4 group">
-                <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=400" class="bw-img h-32 mb-4 group-hover:filter-none transition-all">
-                <h3 class="font-black text-xs uppercase italic">E-Shop Demo</h3>
-                <button onclick="addToBasket('Shop Demo', 0)" class="w-full py-3 mt-3 border border-white/20 rounded-xl text-[9px] font-black uppercase">Lancer Démo</button>
-            </div>
-            <div class="glass p-4 group">
-                <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=400" class="bw-img h-32 mb-4 group-hover:filter-none transition-all">
-                <h3 class="font-black text-xs uppercase italic">Resto Demo</h3>
-                <button onclick="addToBasket('Resto Demo', 0)" class="w-full py-3 mt-3 border border-white/20 rounded-xl text-[9px] font-black uppercase">Lancer Démo</button>
-            </div>
-            <div class="glass p-6 bg-white/5 border-dashed border-white/30 text-center">
-                <h3 class="font-black text-xs uppercase italic mb-1">Custom Concept</h3>
-                <p class="text-[8px] text-slate-500 uppercase italic mb-4">Besoin d'un service spécifique ?</p>
-                <button onclick="toggleBooking()" class="w-full py-3 bg-white text-black rounded-xl text-[9px] font-black uppercase tracking-widest">Réserver Meeting</button>
+            
+            <div class="grid grid-cols-1 gap-6">
+                <div class="glass p-1 group">
+                    <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e12?q=80&w=500" class="w-full h-52 object-cover rounded-[24px] mb-4 group-hover:filter-none transition-all brightness-75 group-hover:brightness-100">
+                    <div class="px-4 pb-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="font-black uppercase text-sm italic italic">E-Shop Retail</h3>
+                            <span class="text-[8px] bg-white/10 px-2 py-1 rounded">V1.2</span>
+                        </div>
+                        <button onclick="addToBasket('Demo Shop', 0)" class="w-full py-4 bg-white text-black font-black text-[10px] uppercase rounded-xl">Lancer Démo</button>
+                    </div>
+                </div>
+
+                <div class="glass p-1 group">
+                    <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=500" class="w-full h-52 object-cover rounded-[24px] mb-4 group-hover:filter-none transition-all brightness-75 group-hover:brightness-100">
+                    <div class="px-4 pb-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="font-black uppercase text-sm italic italic">Gastro & Resto</h3>
+                            <span class="text-[8px] bg-white/10 px-2 py-1 rounded">V2.0</span>
+                        </div>
+                        <button onclick="addToBasket('Demo Resto', 0)" class="w-full py-4 bg-white text-black font-black text-[10px] uppercase rounded-xl">Lancer Démo</button>
+                    </div>
+                </div>
+
+                <div class="glass p-8 bg-white/5 border-dashed border-white/20 text-center">
+                    <h3 class="font-black text-lg uppercase italic italic mb-2">Concept Custom</h3>
+                    <p class="text-[10px] text-slate-500 uppercase mb-6 tracking-widest">Une idée unique ? Parlons-en.</p>
+                    <button onclick="toggleBooking()" class="w-full py-4 glass text-[10px] font-black uppercase">Prendre RDV Calendrier</button>
+                </div>
             </div>
         </section>
 
         <section id="page5" class="page hidden flex-col space-y-4 pt-6 pb-20">
             <h2 class="text-[10px] font-black uppercase text-slate-500 tracking-[0.4em]">Packs & Tarifs</h2>
-            <div class="glass p-6 border-l-4 border-slate-500" onclick="addToBasket('Pack Essentiel', 2000)">
-                <div class="flex justify-between items-center"><h3 class="font-black text-lg uppercase italic">Essentiel</h3><span class="font-black">2000€</span></div>
-                <button class="w-full py-2 bg-white/5 mt-4 rounded-lg text-[8px] font-bold uppercase">Ajouter au panier</button>
+            <div class="glass p-8 flex justify-between items-center" onclick="addToBasket('Essentiel', 2000)">
+                <div><h3 class="font-black text-xl uppercase italic">Essentiel</h3><p class="text-[8px] text-slate-500 uppercase mt-1">Pack Vitrine</p></div>
+                <span class="font-black text-xl">2000€</span>
             </div>
-            <div class="glass p-6 border-l-4 border-emerald-500 bg-emerald-500/5" onclick="addToBasket('Pack Business', 3000)">
-                <div class="flex justify-between items-center"><h3 class="font-black text-lg uppercase italic text-emerald-400">Business</h3><span class="font-black">3000€</span></div>
-                <button class="w-full py-2 bg-emerald-500 text-black mt-4 rounded-lg text-[8px] font-black uppercase">Plus Populaire</button>
+            <div class="glass p-8 bg-white/5 border-emerald-500 flex justify-between items-center" onclick="addToBasket('Business', 3000)">
+                <div><h3 class="font-black text-xl uppercase italic text-emerald-400">Business</h3><p class="text-[8px] text-slate-500 uppercase mt-1">Pack Shop</p></div>
+                <span class="font-black text-xl text-emerald-400">3000€</span>
             </div>
-            <div class="glass p-6 border-l-4 border-white" onclick="addToBasket('Pack Enterprise', 4500)">
-                <div class="flex justify-between items-center"><h3 class="font-black text-lg uppercase italic">Enterprise</h3><span class="font-black">4500€</span></div>
-                <button class="w-full py-2 bg-white/5 mt-4 rounded-lg text-[8px] font-bold uppercase">Ajouter au panier</button>
+            <div class="glass p-8 flex justify-between items-center" onclick="addToBasket('Enterprise', 4500)">
+                <div><h3 class="font-black text-xl uppercase italic">Enterprise</h3><p class="text-[8px] text-slate-500 uppercase mt-1">IA & Data</p></div>
+                <span class="font-black text-xl">4500€</span>
             </div>
-            <div class="grid grid-cols-2 gap-3">
-                <div class="glass p-4 text-center" onclick="addToBasket('Hosting Pro', 99)">
-                    <span class="text-[7px] font-black text-slate-500 uppercase">Hébergement</span>
-                    <p class="text-lg font-black mt-1">99€<span class="text-[7px]">/M</span></p>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="glass p-6 text-center" onclick="addToBasket('Flex Maint.', 25)">
+                    <span class="text-[8px] font-black uppercase text-slate-500 mb-1 block">Flex Pack</span>
+                    <p class="text-xl font-black">25€</p>
                 </div>
-                <div class="glass p-4 text-center border-white/30" onclick="addToBasket('Flex Maint. (5 modifs)', 25)">
-                    <span class="text-[7px] font-black text-white uppercase">Flex Pack</span>
-                    <p class="text-lg font-black text-emerald-400 mt-1">25€</p>
+                <div class="glass p-6 text-center" onclick="addToBasket('Hosting', 99)">
+                    <span class="text-[8px] font-black uppercase text-slate-500 mb-1 block">Hosting</span>
+                    <p class="text-xl font-black">99€</p>
                 </div>
             </div>
         </section>
+
     </main>
 
-    <nav class="fixed bottom-6 left-6 right-6 glass px-2 py-3 flex justify-around items-center z-50 border-white/20 bg-black/80 shadow-2xl">
-        <button id="nav1" onclick="showPage('page1', this)" class="nav-btn text-slate-500 flex flex-col items-center gap-1 active"><i class="fa-solid fa-house text-xs"></i><span class="text-[7px] font-black uppercase">Home</span></button>
-        <button id="nav2" onclick="showPage('page2', this)" class="nav-btn text-slate-500 flex flex-col items-center gap-1"><i class="fa-solid fa-compass text-xs"></i><span class="text-[7px] font-black uppercase">Dashboard</span></button>
+    <nav class="fixed bottom-8 left-8 right-8 glass px-2 py-4 flex justify-around items-center z-50 bg-black/80 border-white/20 shadow-2xl">
+        <button id="nav1" onclick="showPage('page1', this)" class="nav-btn text-slate-500 active flex flex-col items-center gap-1"><i class="fa-solid fa-house text-xs"></i><span class="text-[7px] font-black uppercase">Home</span></button>
+        <button id="nav2" onclick="showPage('page2', this)" class="nav-btn text-slate-500 flex flex-col items-center gap-1"><i class="fa-solid fa-compass text-xs"></i><span class="text-[7px] font-black uppercase">Dash</span></button>
         <button id="nav3" onclick="showPage('page3', this)" class="nav-btn text-slate-500 flex flex-col items-center gap-1"><i class="fa-solid fa-bolt text-xs"></i><span class="text-[7px] font-black uppercase">Tech</span></button>
-        <button id="nav4" onclick="showPage('page4', this)" class="nav-btn text-slate-500 flex flex-col items-center gap-1"><i class="fa-solid fa-flask text-xs"></i><span class="text-[7px] font-black uppercase">Démos</span></button>
+        <button id="nav4" onclick="showPage('page4', this)" class="nav-btn text-slate-500 flex flex-col items-center gap-1"><i class="fa-solid fa-flask text-xs"></i><span class="text-[7px] font-black uppercase">Demo</span></button>
         <button id="nav5" onclick="showPage('page5', this)" class="nav-btn text-slate-500 flex flex-col items-center gap-1"><i class="fa-solid fa-tag text-xs"></i><span class="text-[7px] font-black uppercase">Deals</span></button>
     </nav>
 
@@ -225,38 +243,25 @@
         let basket = []; let total = 0;
         function showPage(pageId, btn) {
             document.querySelectorAll('.page').forEach(p => { p.classList.add('hidden'); p.classList.remove('active-page'); });
-            const activePage = document.getElementById(pageId);
-            activePage.classList.remove('hidden'); activePage.classList.add('active-page');
+            const p = document.getElementById(pageId); p.classList.remove('hidden'); p.classList.add('active-page');
             if(btn) { document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
         }
         function toggleBasket() { document.getElementById('basketOverlay').classList.toggle('hidden'); document.getElementById('basketOverlay').classList.toggle('flex'); }
         function toggleBooking() { document.getElementById('bookingOverlay').classList.toggle('hidden'); document.getElementById('bookingOverlay').classList.toggle('flex'); }
         
         function addToBasket(name, price) {
-            basket.push({name, price});
-            updateBasketUI();
+            basket.push({name, price}); updateBasketUI();
             if(price > 0) alert(name + " ajouté !");
         }
         function updateBasketUI() {
-            const list = document.getElementById('basketItems');
-            const totalEl = document.getElementById('basketTotal');
-            list.innerHTML = ''; total = 0;
-            basket.forEach(item => {
-                total += item.price;
-                list.innerHTML += `<div class="glass p-4 flex justify-between items-center text-[10px] uppercase font-bold"><span>${item.name}</span><span>${item.price}€</span></div>`;
-            });
+            const list = document.getElementById('basketItems'); total = 0;
+            list.innerHTML = '';
+            basket.forEach(item => { total += item.price; list.innerHTML += `<div class="glass p-4 flex justify-between font-bold text-[10px] uppercase"><span>${item.name}</span><span>${item.price}€</span></div>`; });
             document.getElementById('basketCount').innerText = basket.length;
-            totalEl.innerText = total + "€";
+            document.getElementById('basketTotal').innerText = total + "€";
         }
-        function processPayment() {
-            if(total === 0) return alert("Panier vide.");
-            alert("Redirection Stripe sécurisée...");
-            setTimeout(() => { alert("Paiement Confirmé !"); basket = []; updateBasketUI(); toggleBasket(); }, 2000);
-        }
-        function confirmMeet() {
-            alert("Meeting Confirmé sur votre calendrier pour le 15 Février à 14:00.");
-            toggleBooking();
-        }
+        function processPayment() { if(total > 0) { alert("Redirection Stripe..."); setTimeout(()=> { alert("Payé !"); basket=[]; updateBasketUI(); toggleBasket();}, 1500); } }
+        function confirmMeet() { alert("Rendez-vous réservé sur le calendrier !"); toggleBooking(); }
     </script>
 </body>
 </html>
