@@ -10,13 +10,11 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
         body { background: #000; color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; height: 100vh; }
         
-        /* UI System */
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .active-page { display: flex !important; animation: fadeIn 0.5s ease-out forwards; }
         
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Detail Expansion Logic */
         .detail-pane { max-height: 0; opacity: 0; overflow: hidden; transition: all 0.5s ease; }
         .expanded .detail-pane { max-height: 1000px; opacity: 1; margin-top: 1.2rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1rem; }
         .expanded .chevron { transform: rotate(180deg); }
@@ -26,237 +24,200 @@
         
         .nav-btn.active { color: #fff; }
         .nav-btn.active i { transform: translateY(-3px); filter: drop-shadow(0 0 8px rgba(255,255,255,0.8)); }
+        
+        /* Modal for Checkout Simulation */
+        #checkoutModal { display: none; background: rgba(0,0,0,0.9); z-index: 100; }
     </style>
 </head>
 <body class="flex flex-col">
+
+    <div id="checkoutModal" class="fixed inset-0 flex items-center justify-center p-6">
+        <div class="glass w-full max-w-sm p-8 flex flex-col items-center text-center">
+            <i class="fa-solid fa-circle-check text-5xl text-emerald-500 mb-4"></i>
+            <h2 class="text-xl font-black uppercase italic mb-2">Simulation Paiement</h2>
+            <p id="checkoutItem" class="text-slate-400 text-xs mb-6 uppercase tracking-widest">PACK BUSINESS</p>
+            <div class="w-full bg-white/5 p-4 rounded-xl mb-6">
+                <div class="flex justify-between text-[10px] mb-2"><span>Sous-total</span><span id="checkoutPrice">3000€</span></div>
+                <div class="flex justify-between text-[10px] text-emerald-400 font-bold uppercase"><span>Statut</span><span>Prêt à l'intégration</span></div>
+            </div>
+            <button onclick="closeCheckout()" class="bg-white text-black w-full py-4 rounded-xl font-black text-xs uppercase mb-3">Continuer</button>
+            <a href="https://meet.google.com" target="_blank" class="text-[9px] uppercase font-bold text-slate-500 hover:text-white transition-colors">Réserver un Google Meet <i class="fa-solid fa-video ml-1"></i></a>
+        </div>
+    </div>
 
     <header class="p-6 flex justify-between items-center z-50">
         <div class="flex flex-col">
             <span class="text-[10px] font-black tracking-[0.6em] uppercase">Pixel & Brush</span>
             <span class="text-[7px] text-slate-500 uppercase tracking-widest mt-1">Strasbourg • Zurich • Dubai</span>
         </div>
-        <div class="flex items-center gap-2">
-            <span class="text-[8px] font-bold uppercase text-slate-400 italic">v2.5 Full-Spec</span>
-            <div class="h-1.5 w-1.5 rounded-full bg-white animate-pulse"></div>
-        </div>
+        <div class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
     </header>
 
     <main class="flex-grow relative px-4 overflow-y-auto pb-40">
         
         <section id="page1" class="page active-page flex-col items-center justify-center text-center h-full pt-4">
-            <div class="glass p-1 w-full mb-8 relative overflow-hidden">
+            <div class="glass p-1 w-full mb-8 relative">
                 <img src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=600" class="bw-img h-80 opacity-40">
                 <div class="absolute inset-0 flex flex-col items-center justify-center p-8">
-                    <h1 class="text-5xl font-black uppercase leading-[0.8] tracking-tighter mb-4 italic">L'Elite<br>Experience.</h1>
-                    <p class="text-[9px] uppercase tracking-[0.4em] text-white/40 font-bold">Design Studio Architecture</p>
+                    <h1 class="text-5xl font-black uppercase leading-[0.8] tracking-tighter mb-4 italic italic">Studio<br>Elite v3.</h1>
+                    <p class="text-[9px] uppercase tracking-[0.4em] text-white/40">Powering the Future of Mobile Web</p>
                 </div>
             </div>
-            <button onclick="showPage('page2', document.getElementById('nav2'))" class="bg-white text-black w-full py-5 rounded-2xl font-black text-xs uppercase tracking-widest shadow-2xl active:scale-95 transition-transform">Lancer l'Interface</button>
+            <button onclick="showPage('page2', document.getElementById('nav2'))" class="bg-white text-black w-full py-5 rounded-2xl font-black text-xs uppercase tracking-widest active:scale-95 transition-transform">Entrer dans le Dashboard</button>
         </section>
 
         <section id="page2" class="page hidden flex-col space-y-4 pt-6">
-            <h2 class="text-[10px] font-bold uppercase text-slate-500 tracking-[0.4em]">Command Center</h2>
-            
-            <div onclick="showPage('page4', document.getElementById('nav4'))" class="glass relative overflow-hidden h-44 group">
-                <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=500" class="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:scale-110 transition-transform duration-1000">
-                <div class="relative p-6 h-full flex flex-col justify-end">
-                    <h3 class="font-black uppercase text-xl italic">Nos Solutions</h3>
-                    <p class="text-[9px] text-slate-400 italic">Démos E-Shop, Resto, Booking & Plus</p>
-                </div>
+            <h2 class="text-[10px] font-bold uppercase text-slate-500 tracking-[0.4em]">Navigation Rapide</h2>
+            <div onclick="showPage('page4', document.getElementById('nav4'))" class="glass h-32 flex items-center p-6 gap-6 group">
+                <i class="fa-solid fa-rocket text-4xl text-white/20 group-hover:text-white transition-colors"></i>
+                <div><h3 class="font-black uppercase text-lg italic">Démos Solutions</h3><p class="text-[9px] text-slate-500">Shop, Resto, Booking & Custom</p></div>
             </div>
-
-            <div onclick="showPage('page3', document.getElementById('nav3'))" class="glass relative overflow-hidden h-44 group">
-                <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=500" class="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:scale-110 transition-transform duration-1000">
-                <div class="relative p-6 h-full flex flex-col justify-end">
-                    <h3 class="font-black uppercase text-xl italic">Catalogue Tech</h3>
-                    <p class="text-[9px] text-slate-400 italic">Arsenal Complet & Intégrations Natives</p>
-                </div>
-            </div>
-
-            <div onclick="showPage('page5', document.getElementById('nav5'))" class="glass relative overflow-hidden h-44 group">
-                <img src="https://images.unsplash.com/photo-1553729459-efe14ef6055d?q=80&w=500" class="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:scale-110 transition-transform duration-1000">
-                <div class="relative p-6 h-full flex flex-col justify-end">
-                    <h3 class="font-black uppercase text-xl italic">Offres & Tarifs</h3>
-                    <p class="text-[9px] text-slate-400 italic">Packs Maintenance & Stratégie Disruptive</p>
-                </div>
+            <div onclick="showPage('page3', document.getElementById('nav3'))" class="glass h-32 flex items-center p-6 gap-6 group">
+                <i class="fa-solid fa-microchip text-4xl text-white/20 group-hover:text-blue-400 transition-colors"></i>
+                <div><h3 class="font-black uppercase text-lg italic">Arsenal Tech</h3><p class="text-[9px] text-slate-500">Intégrations natives ultra-performantes</p></div>
             </div>
         </section>
 
         <section id="page3" class="page hidden flex-col space-y-3 pt-6">
-            <h2 class="text-[10px] font-bold uppercase text-slate-500 tracking-[0.4em] mb-2">Arsenal Technologique</h2>
+            <h2 class="text-[10px] font-bold uppercase text-slate-500 tracking-[0.4em]">Arsenal Technologique</h2>
             
-            <div class="glass p-5 border-l-4 border-blue-500" onclick="this.classList.toggle('expanded')">
+            <div class="glass p-6 border-l-4 border-blue-500" onclick="this.classList.toggle('expanded')">
                 <div class="flex justify-between items-center">
-                    <div class="flex items-center gap-3">
-                        <i class="fa-solid fa-basket-shopping text-blue-400"></i>
-                        <span class="font-bold text-[11px] uppercase italic">Checkout & Basket</span>
-                    </div>
+                    <div class="flex items-center gap-4"><i class="fa-solid fa-images text-blue-400"></i><span class="font-black text-xs uppercase italic">Shop Gallery Elite</span></div>
                     <i class="fa-solid fa-chevron-down chevron text-[10px] opacity-20"></i>
                 </div>
-                <div class="detail-pane text-[10px] text-slate-400 leading-relaxed">
-                    Gestion native du panier, tunnel d'achat optimisé, et support multi-paiements (Apple Pay, Stripe, Crypto TON/USDT).
+                <div class="detail-pane text-[10px] text-slate-400">
+                    Galerie immersive ultra-rapide avec zoom HD, variantes de produits et gestion de stock en temps réel synchronisée Excel.
                 </div>
             </div>
 
-            <div class="glass p-5 border-l-4 border-purple-500" onclick="this.classList.toggle('expanded')">
+            <div class="glass p-6 border-l-4 border-purple-500" onclick="this.classList.toggle('expanded')">
                 <div class="flex justify-between items-center">
-                    <div class="flex items-center gap-3">
-                        <i class="fa-solid fa-calendar-days text-purple-400"></i>
-                        <span class="font-bold text-[11px] uppercase italic">Booking & Calendar</span>
-                    </div>
+                    <div class="flex items-center gap-4"><i class="fa-solid fa-calendar text-purple-400"></i><span class="font-black text-xs uppercase italic">Booking & Calendar</span></div>
                     <i class="fa-solid fa-chevron-down chevron text-[10px] opacity-20"></i>
                 </div>
-                <div class="detail-pane text-[10px] text-slate-400 leading-relaxed">
-                    Système de réservation de créneaux avec acompte et synchronisation bidirectionnelle avec vos agendas pros.
+                <div class="detail-pane text-[10px] text-slate-400">
+                    Prise de rendez-vous avec acompte Stripe. Synchronisation native Google/Outlook.
                 </div>
             </div>
 
-            <div class="glass p-5 border-l-4 border-emerald-500" onclick="this.classList.toggle('expanded')">
+            <div class="glass p-6 border-l-4 border-emerald-500" onclick="this.classList.toggle('expanded')">
                 <div class="flex justify-between items-center">
-                    <div class="flex items-center gap-3">
-                        <i class="fa-solid fa-map-location-dot text-emerald-400"></i>
-                        <span class="font-bold text-[11px] uppercase italic">Interactive Map</span>
-                    </div>
+                    <div class="flex items-center gap-4"><i class="fa-solid fa-basket-shopping text-emerald-400"></i><span class="font-black text-xs uppercase italic">Checkout Basket</span></div>
                     <i class="fa-solid fa-chevron-down chevron text-[10px] opacity-20"></i>
                 </div>
-                <div class="detail-pane text-[10px] text-slate-400 leading-relaxed">
-                    Géolocalisation en temps réel, affichage de points de vente et calcul d'itinéraires intégré.
+                <div class="detail-pane text-[10px] text-slate-400">
+                    Tunnel d'achat en 2 étapes optimisé pour la conversion mobile (Apple/Google Pay).
                 </div>
             </div>
 
-            <div class="glass p-5 border-l-4 border-orange-500" onclick="this.classList.toggle('expanded')">
+            <div class="glass p-6 border-l-4 border-pink-500" onclick="this.classList.toggle('expanded')">
                 <div class="flex justify-between items-center">
-                    <div class="flex items-center gap-3">
-                        <i class="fa-solid fa-database text-orange-400"></i>
-                        <span class="font-bold text-[11px] uppercase italic">Data Collection</span>
-                    </div>
+                    <div class="flex items-center gap-4"><i class="fa-solid fa-map-location-dot text-pink-400"></i><span class="font-black text-xs uppercase italic">Interactive Map</span></div>
                     <i class="fa-solid fa-chevron-down chevron text-[10px] opacity-20"></i>
                 </div>
-                <div class="detail-pane text-[10px] text-slate-400 leading-relaxed">
-                    Synchronisation avec Google Sheets/Excel. Export PDF automatisé et analyse comportementale utilisateur.
+                <div class="detail-pane text-[10px] text-slate-400">
+                    Cartographie dynamique avec points d'intérêt et calcul d'itinéraire client.
                 </div>
             </div>
 
-            <div class="glass p-5 border-l-4 border-pink-500" onclick="this.classList.toggle('expanded')">
+            <div class="glass p-6 border-l-4 border-orange-500" onclick="this.classList.toggle('expanded')">
                 <div class="flex justify-between items-center">
-                    <div class="flex items-center gap-3">
-                        <i class="fa-solid fa-palette text-pink-400"></i>
-                        <span class="font-bold text-[11px] uppercase italic">Branding Custom</span>
-                    </div>
+                    <div class="flex items-center gap-4"><i class="fa-solid fa-database text-orange-400"></i><span class="font-black text-xs uppercase italic">Data Collection</span></div>
                     <i class="fa-solid fa-chevron-down chevron text-[10px] opacity-20"></i>
                 </div>
-                <div class="detail-pane text-[10px] text-slate-400 leading-relaxed">
-                    Adaptation 100% sur mesure à votre charte graphique : Typography, Motion Design et Iconographie exclusive.
-                </div>
-            </div>
-
-            <div class="glass p-5 border-l-4 border-white/40" onclick="this.classList.toggle('expanded')">
-                <div class="flex justify-between items-center">
-                    <div class="flex items-center gap-3">
-                        <i class="fa-solid fa-microchip text-white/60"></i>
-                        <span class="font-bold text-[11px] uppercase italic">IA & Biométrie</span>
-                    </div>
-                    <i class="fa-solid fa-chevron-down chevron text-[10px] opacity-20"></i>
-                </div>
-                <div class="detail-pane text-[10px] text-slate-400 leading-relaxed">
-                    FaceID/TouchID natif et assistant IA conversationnel formé sur votre inventaire de produits.
+                <div class="detail-pane text-[10px] text-slate-400">
+                    Collecte de leads RGPD, formulaires intelligents et exports Excel/PDF automatiques.
                 </div>
             </div>
         </section>
 
-        <section id="page4" class="page hidden flex-col space-y-6 pt-6">
+        <section id="page4" class="page hidden flex-col space-y-4 pt-6">
             <h2 class="text-[10px] font-bold uppercase text-slate-500 tracking-[0.4em]">Sandbox Solutions</h2>
             
-            <div class="glass p-4">
-                <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=400" class="bw-img h-32 mb-4">
-                <h3 class="font-black text-sm uppercase">E-Shop Retail</h3>
-                <p class="text-[9px] text-slate-500 mb-4 italic">Catalogue, panier natif & paiements.</p>
-                <button class="w-full py-3 border border-white/20 rounded-xl text-[9px] font-bold uppercase">Lancer Démo</button>
+            <div class="glass p-4 group">
+                <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=400" class="bw-img h-32 mb-4 group-hover:filter-none transition-all">
+                <h3 class="font-black text-xs uppercase">E-Shop Retail</h3>
+                <button class="w-full py-3 mt-3 border border-white/20 rounded-xl text-[9px] font-bold uppercase">Lancer Démo</button>
             </div>
 
-            <div class="glass p-4">
-                <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=400" class="bw-img h-32 mb-4">
-                <h3 class="font-black text-sm uppercase">Resto & Gastro</h3>
-                <p class="text-[9px] text-slate-500 mb-4 italic">Menu QR, commande à table & pourboires.</p>
-                <button class="w-full py-3 border border-white/20 rounded-xl text-[9px] font-bold uppercase">Lancer Démo</button>
+            <div class="glass p-4 group">
+                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=400" class="bw-img h-32 mb-4 group-hover:filter-none transition-all">
+                <h3 class="font-black text-xs uppercase">Resto & Booking</h3>
+                <button class="w-full py-3 mt-3 border border-white/20 rounded-xl text-[9px] font-bold uppercase">Lancer Démo</button>
+            </div>
+
+            <div class="glass p-4 group">
+                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=400" class="bw-img h-32 mb-4 group-hover:filter-none transition-all">
+                <h3 class="font-black text-xs uppercase">Portfolio & Agency</h3>
+                <button class="w-full py-3 mt-3 border border-white/20 rounded-xl text-[9px] font-bold uppercase">Lancer Démo</button>
+            </div>
+
+            <div class="glass p-6 bg-white/5 border-dashed border-white/30 text-center">
+                <h3 class="font-black text-xs uppercase mb-1">Solution Sur-Mesure</h3>
+                <p class="text-[8px] text-slate-500 italic mb-4">Votre concept unique codé de A à Z.</p>
+                <a href="https://meet.google.com" target="_blank" class="block w-full py-3 bg-white text-black rounded-xl text-[9px] font-black uppercase tracking-widest">Réserver Briefing</a>
             </div>
         </section>
 
         <section id="page5" class="page hidden flex-col space-y-4 pt-6 pb-20">
-            <h2 class="text-[10px] font-bold uppercase text-slate-500 tracking-[0.4em]">Offres & Maintenance</h2>
+            <h2 class="text-[10px] font-bold uppercase text-slate-500 tracking-[0.4em]">Deals & Abonnements</h2>
             
-            <div class="glass p-6">
-                <div class="flex justify-between items-start mb-4">
-                    <h3 class="font-black text-xl uppercase italic">Pack Business</h3>
-                    <div class="text-right"><p class="text-xl font-black">3 000€</p></div>
-                </div>
-                <ul class="text-[9px] text-slate-400 space-y-2 uppercase tracking-wider">
-                    <li>• Architecture App Native</li>
-                    <li>• Checkout & Panier Intégré</li>
-                    <li>• Notifications Push & Analytics</li>
-                </ul>
+            <div class="glass p-6" onclick="openCheckout('Essentiel', '2000€')">
+                <div class="flex justify-between items-center mb-2"><h3 class="font-black text-lg uppercase italic">Essentiel</h3><span class="font-black">2000€</span></div>
+                <p class="text-[8px] text-slate-400 uppercase italic mb-4">La vitrine digitale haute performance.</p>
+                <button class="w-full py-2 bg-white/5 border border-white/10 rounded-lg text-[8px] font-bold uppercase">Séléctionner</button>
+            </div>
+
+            <div class="glass p-6 border-white/40 bg-white/5" onclick="openCheckout('Business', '3000€')">
+                <div class="flex justify-between items-center mb-2"><h3 class="font-black text-lg uppercase italic">Business</h3><span class="font-black">3000€</span></div>
+                <p class="text-[8px] text-white/60 uppercase italic mb-4">Commerce complet & Notifications Push.</p>
+                <button class="w-full py-2 bg-emerald-500 text-black rounded-lg text-[8px] font-bold uppercase">Le Plus Populaire</button>
+            </div>
+
+            <div class="glass p-6 border-white/80" onclick="openCheckout('Enterprise', '4500€')">
+                <div class="flex justify-between items-center mb-2"><h3 class="font-black text-lg uppercase italic">Enterprise</h3><span class="font-black">4500€</span></div>
+                <p class="text-[8px] text-slate-400 uppercase italic mb-4">IA, Synchronisation Excel & Data Excellence.</p>
+                <button class="w-full py-2 bg-white/5 border border-white/10 rounded-lg text-[8px] font-bold uppercase">Séléctionner</button>
             </div>
 
             <div class="grid grid-cols-2 gap-3">
-                <div class="glass p-4 flex flex-col items-center justify-center text-center">
-                    <span class="text-[7px] font-black text-slate-500 uppercase mb-1">Hosting Monthly</span>
-                    <span class="text-lg font-black">99€</span>
-                    <span class="text-[7px] text-slate-600 uppercase">Pro Cloud Support</span>
+                <div class="glass p-4 text-center">
+                    <span class="text-[7px] font-bold text-slate-500 uppercase">Hébergement</span>
+                    <p class="text-lg font-black mt-1">99€<span class="text-[7px]">/M</span></p>
                 </div>
-                <div class="glass p-4 flex flex-col items-center justify-center text-center border-white/30">
-                    <span class="text-[7px] font-black text-white uppercase mb-1">Flex Pack</span>
-                    <span class="text-lg font-black text-emerald-400">25€</span>
-                    <span class="text-[7px] text-slate-400 uppercase leading-none mt-1">5 Modifications<br>Par Mois</span>
+                <div class="glass p-4 text-center border-emerald-500/30">
+                    <span class="text-[7px] font-bold text-white uppercase">Flex Pack (5 modifs)</span>
+                    <p class="text-lg font-black text-emerald-400 mt-1">25€</p>
                 </div>
-            </div>
-
-            <div class="glass p-6 bg-white text-black text-center">
-                <h4 class="font-black text-[10px] uppercase mb-1 tracking-widest">Sérénité Totale</h4>
-                <div class="text-xl font-black italic">199€ / mois</div>
-                <p class="text-[8px] uppercase tracking-tighter mt-1 italic">Hébergement + Modifs Illimitées + SEO</p>
             </div>
         </section>
 
     </main>
 
     <nav class="fixed bottom-6 left-6 right-6 glass px-2 py-3 flex justify-around items-center z-50 border-white/20 bg-black/70 shadow-2xl">
-        <button id="nav1" onclick="showPage('page1', this)" class="nav-btn text-slate-500 flex flex-col items-center gap-1 active">
-            <i class="fa-solid fa-house text-sm"></i>
-            <span class="text-[7px] font-bold uppercase tracking-tighter">Home</span>
-        </button>
-        <button id="nav2" onclick="showPage('page2', this)" class="nav-btn text-slate-500 flex flex-col items-center gap-1">
-            <i class="fa-solid fa-compass text-sm"></i>
-            <span class="text-[7px] font-bold uppercase tracking-tighter">Center</span>
-        </button>
-        <button id="nav3" onclick="showPage('page3', this)" class="nav-btn text-slate-500 flex flex-col items-center gap-1">
-            <i class="fa-solid fa-microchip text-sm"></i>
-            <span class="text-[7px] font-bold uppercase tracking-tighter">Tech</span>
-        </button>
-        <button id="nav4" onclick="showPage('page4', this)" class="nav-btn text-slate-500 flex flex-col items-center gap-1">
-            <i class="fa-solid fa-flask text-sm"></i>
-            <span class="text-[7px] font-bold uppercase tracking-tighter">Labs</span>
-        </button>
-        <button id="nav5" onclick="showPage('page5', this)" class="nav-btn text-slate-500 flex flex-col items-center gap-1">
-            <i class="fa-solid fa-tag text-sm"></i>
-            <span class="text-[7px] font-bold uppercase tracking-tighter">Price</span>
-        </button>
+        <button id="nav1" onclick="showPage('page1', this)" class="nav-btn text-slate-500 flex flex-col items-center gap-1 active"><i class="fa-solid fa-house text-xs"></i><span class="text-[7px] font-black uppercase">Home</span></button>
+        <button id="nav2" onclick="showPage('page2', this)" class="nav-btn text-slate-500 flex flex-col items-center gap-1"><i class="fa-solid fa-compass text-xs"></i><span class="text-[7px] font-black uppercase">Center</span></button>
+        <button id="nav3" onclick="showPage('page3', this)" class="nav-btn text-slate-500 flex flex-col items-center gap-1"><i class="fa-solid fa-microchip text-xs"></i><span class="text-[7px] font-black uppercase">Tech</span></button>
+        <button id="nav4" onclick="showPage('page4', this)" class="nav-btn text-slate-500 flex flex-col items-center gap-1"><i class="fa-solid fa-rocket text-xs"></i><span class="text-[7px] font-black uppercase">Démos</span></button>
+        <button id="nav5" onclick="showPage('page5', this)" class="nav-btn text-slate-500 flex flex-col items-center gap-1"><i class="fa-solid fa-tag text-xs"></i><span class="text-[7px] font-black uppercase">Deals</span></button>
     </nav>
 
     <script>
         function showPage(pageId, btn) {
-            document.querySelectorAll('.page').forEach(p => {
-                p.classList.add('hidden');
-                p.classList.remove('active-page');
-            });
+            document.querySelectorAll('.page').forEach(p => { p.classList.add('hidden'); p.classList.remove('active-page'); });
             const activePage = document.getElementById(pageId);
-            activePage.classList.remove('hidden');
-            activePage.classList.add('active-page');
-
-            if(btn) {
-                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-            }
+            activePage.classList.remove('hidden'); activePage.classList.add('active-page');
+            if(btn) { document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
         }
+
+        function openCheckout(name, price) {
+            document.getElementById('checkoutItem').innerText = "PACK " + name;
+            document.getElementById('checkoutPrice').innerText = price;
+            document.getElementById('checkoutModal').style.display = 'flex';
+        }
+
+        function closeCheckout() { document.getElementById('checkoutModal').style.display = 'none'; }
     </script>
 </body>
 </html>
