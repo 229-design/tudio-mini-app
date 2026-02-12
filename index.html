@@ -2,114 +2,165 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Showcase Telegram Mini App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mini App B&W Showcase</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background-color: #0f172a; color: white; font-family: 'Inter', sans-serif; }
-        .tg-blue { color: #24A1DE; }
-        .bg-tg-blue { background-color: #24A1DE; }
-        .card-gradient { background: linear-gradient(145deg, #1e293b, #0f172a); border: 1px solid #334155; }
-        .price-tag { background: rgba(36, 161, 222, 0.1); border: 1px solid #24A1DE; }
-        .nav-blur { backdrop-filter: blur(10px); background: rgba(15, 23, 42, 0.8); }
+        body { background: #000; color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; }
+        
+        /* Glassmorphism Effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+        }
+
+        .active-page { display: flex !important; animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .btn-black { background: #fff; color: #000; transition: all 0.2s; }
+        .btn-black:active { transform: scale(0.95); background: #e0e0e0; }
+        
+        .nav-item.active { color: #fff; border-bottom: 2px solid #fff; }
     </style>
 </head>
-<body class="pb-24">
+<body class="h-screen flex flex-col">
 
-    <section id="home" class="p-6 pt-12 text-center min-h-screen flex flex-col justify-center items-center">
-        <div class="w-24 h-24 bg-tg-blue rounded-3xl mb-6 flex items-center justify-center shadow-lg shadow-blue-500/50 animate-bounce">
-            <i class="fa-brands fa-telegram text-5xl text-white"></i>
-        </div>
-        <h1 class="text-4xl font-extrabold mb-4">L'avenir de votre commerce.</h1>
-        <p class="text-slate-400 text-lg mb-8">Mini Apps ultra-rapides, intuitives et <span class="text-white font-bold">-50% moins chères</span> que le marché.</p>
-        <button onclick="document.getElementById('features').scrollIntoView({behavior: 'smooth'})" class="bg-tg-blue hover:bg-blue-500 text-white px-8 py-4 rounded-full font-bold transition-all shadow-xl">
-            Découvrir l'expérience
-        </button>
-    </section>
+    <header class="p-6 text-center">
+        <h1 class="text-xl font-light tracking-widest uppercase">Pixel & Brush</h1>
+    </header>
 
-    <section id="features" class="p-6">
-        <h2 class="text-2xl font-bold mb-6 flex items-center"><i class="fa-solid fa-bolt tg-blue mr-3"></i> Arsenal Technique</h2>
+    <main class="flex-grow relative px-4 overflow-y-auto">
         
-        <div class="grid gap-4">
-            <div class="card-gradient p-5 rounded-2xl">
-                <i class="fa-solid fa-credit-card tg-blue text-2xl mb-3"></i>
-                <h3 class="font-bold text-lg">Paiements Hybrides</h3>
-                <p class="text-slate-400 text-sm">Stripe, Apple/Google Pay & Crypto (TON/USDT).</p>
+        <section id="page1" class="page active-page flex-col items-center justify-center text-center h-full">
+            <div class="glass p-10 mb-8">
+                <i class="fa-solid fa-microchip text-5xl mb-6"></i>
+                <h2 class="text-3xl font-bold mb-2 uppercase tracking-tighter">L'Avenir Digital</h2>
+                <p class="text-slate-400 text-sm">Mini Apps sur-mesure pour commerces visionnaires.</p>
             </div>
-            <div class="card-gradient p-5 rounded-2xl">
-                <i class="fa-solid fa-bell tg-blue text-2xl mb-3"></i>
-                <h3 class="font-bold text-lg">Notifications Push</h3>
-                <p class="text-slate-400 text-sm">Relancez vos clients directement sur leur écran de verrouillage.</p>
-            </div>
-            <div class="card-gradient p-5 rounded-2xl">
-                <i class="fa-solid fa-robot tg-blue text-2xl mb-3"></i>
-                <h3 class="font-bold text-lg">IA Relationnelle 24/7</h3>
-                <p class="text-slate-400 text-sm">Un chatbot entraîné pour répondre à vos clients instantanément.</p>
-            </div>
-        </div>
-    </section>
+            <button onclick="showPage('page2')" class="btn-black px-10 py-4 rounded-full font-bold uppercase text-xs tracking-widest">
+                Entrer dans l'expérience
+            </button>
+        </section>
 
-    <section id="pricing" class="p-6">
-        <h2 class="text-2xl font-bold mb-2">Offres Disruptives</h2>
-        <p class="text-slate-400 mb-6">Le prix d'un freelance, la qualité d'une agence.</p>
+        <section id="page2" class="page hidden flex-col space-y-4 pt-4">
+            <h2 class="text-sm font-bold uppercase tracking-widest text-slate-500 mb-2">Centre de Commande</h2>
+            <div onclick="showPage('page4')" class="glass p-5 flex items-center justify-between">
+                <div class="flex items-center gap-4"><i class="fa-solid fa-play"></i> <span>Nos Démos</span></div>
+                <i class="fa-solid fa-chevron-right text-slate-500"></i>
+            </div>
+            <div onclick="showPage('page3')" class="glass p-5 flex items-center justify-between">
+                <div class="flex items-center gap-4"><i class="fa-solid fa-list-check"></i> <span>Le Tech Buffet</span></div>
+                <i class="fa-solid fa-chevron-right text-slate-500"></i>
+            </div>
+            <div onclick="showPage('page5')" class="glass p-5 flex items-center justify-between border-white/40">
+                <div class="flex items-center gap-4"><i class="fa-solid fa-tag"></i> <span>Offres & Tarifs (-50%)</span></div>
+                <i class="fa-solid fa-chevron-right text-slate-500"></i>
+            </div>
+            <div onclick="showPage('page6')" class="glass p-5 flex items-center justify-between">
+                <div class="flex items-center gap-4"><i class="fa-solid fa-chart-line"></i> <span>Dashboard & Data</span></div>
+                <i class="fa-solid fa-chevron-right text-slate-500"></i>
+            </div>
+        </section>
 
-        <div class="space-y-6">
-            <div class="card-gradient p-6 rounded-3xl relative overflow-hidden">
-                <div class="absolute top-0 right-0 bg-red-500 text-[10px] px-3 py-1 font-bold uppercase tracking-widest">-50%</div>
-                <h3 class="text-xl font-bold mb-2">PACK ESSENTIEL</h3>
-                <p class="text-sm text-slate-400 mb-4 italic">Idéal pour débuter votre présence digitale.</p>
-                <div class="flex items-baseline gap-2 mb-6">
-                    <span class="text-3xl font-black">1 500€</span>
-                    <span class="text-slate-500 line-through text-sm">3 000€</span>
+        <section id="page3" class="page hidden flex-col space-y-3 pt-4 pb-20">
+            <h2 class="text-sm font-bold uppercase text-slate-500 mb-2">Arsenal Technologique</h2>
+            <div class="glass p-4">
+                <h4 class="font-bold">Paiements Sécurisés</h4>
+                <p class="text-xs text-slate-400">Integration Stripe, Apple Pay & Crypto.</p>
+            </div>
+            <div class="glass p-4">
+                <h4 class="font-bold">Push Notifications</h4>
+                <p class="text-xs text-slate-400">Taux d'ouverture 98% sur l'écran verrouillé.</p>
+            </div>
+            <div class="glass p-4">
+                <h4 class="font-bold">Fidélité Digitale</h4>
+                <p class="text-xs text-slate-400">Points et récompenses automatisés.</p>
+            </div>
+            <div class="glass p-4 border-white/30">
+                <h4 class="font-bold">Chatbot IA 24/7</h4>
+                <p class="text-xs text-slate-400">Service client autonome intégré.</p>
+            </div>
+        </section>
+
+        <section id="page5" class="page hidden flex-col space-y-4 pt-4 pb-20">
+            <h2 class="text-sm font-bold uppercase text-slate-500">Offres Irréfutables</h2>
+            <div class="glass p-6 border-white/20">
+                <span class="text-[10px] border border-white px-2 py-0.5 rounded-full uppercase">Essentiel</span>
+                <div class="flex justify-between items-end mt-4">
+                    <h3 class="text-2xl font-bold">1 500€</h3>
+                    <span class="text-slate-500 line-through text-xs">3 000€</span>
                 </div>
-                <ul class="text-sm space-y-2 mb-6 text-slate-300">
-                    <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Vitrine Digitale</li>
-                    <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Catalogue (20 produits)</li>
-                    <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Formulaire de Contact</li>
-                </ul>
+                <p class="text-[10px] mt-2 text-slate-400 italic">Vitrine, 20 produits, Bot setup.</p>
             </div>
-
-            <div class="border-2 border-blue-500 bg-slate-800 p-6 rounded-3xl relative">
-                <div class="absolute -top-3 left-6 bg-tg-blue text-[10px] px-3 py-1 rounded-full font-bold uppercase">Plus Populaire</div>
-                <h3 class="text-xl font-bold mb-2">PACK BUSINESS</h3>
-                <p class="text-sm text-slate-400 mb-4 italic">Une boutique complète prête à vendre.</p>
-                <div class="flex items-baseline gap-2 mb-6">
-                    <span class="text-3xl font-black">3 000€</span>
-                    <span class="text-slate-500 line-through text-sm">6 000€</span>
+            <div class="glass p-6 border-white/60 bg-white/10">
+                <span class="text-[10px] bg-white text-black px-2 py-0.5 rounded-full font-bold uppercase tracking-tighter">Business</span>
+                <div class="flex justify-between items-end mt-4">
+                    <h3 class="text-2xl font-bold">3 000€</h3>
+                    <span class="text-slate-500 line-through text-xs">6 000€</span>
                 </div>
-                <ul class="text-sm space-y-2 mb-6 text-slate-300">
-                    <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Tout le pack Essentiel</li>
-                    <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Paiements Intégrés</li>
-                    <li><i class="fa-solid fa-check text-green-500 mr-2"></i> Gestion de Panier</li>
-                </ul>
+                <p class="text-[10px] mt-2 text-slate-200 font-medium italic">Paiements, Panier, Push, Dashboard.</p>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <nav class="fixed bottom-0 left-0 right-0 nav-blur border-t border-slate-800 px-6 py-4 flex justify-between items-center z-50">
-        <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="flex flex-col items-center text-slate-400 hover:tg-blue">
-            <i class="fa-solid fa-house text-xl"></i>
-            <span class="text-[10px] mt-1">Home</span>
+        <section id="page6" class="page hidden flex-col space-y-4 pt-4 text-center">
+            <h2 class="text-sm font-bold uppercase text-slate-500 mb-2">Le Cerveau Admin</h2>
+            <div class="glass p-6">
+                <p class="text-[10px] text-slate-400 mb-4 uppercase">Chiffre d'affaires mensuel</p>
+                <div class="text-3xl font-light tracking-tighter">14,280.00 €</div>
+                <div class="mt-4 h-1 w-full bg-slate-800 rounded-full overflow-hidden">
+                    <div class="bg-white h-full w-[70%]"></div>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4 text-left">
+                <div class="glass p-4">
+                    <p class="text-[8px] uppercase text-slate-500">Panier Moyen</p>
+                    <p class="text-lg font-bold">42 €</p>
+                </div>
+                <div class="glass p-4 text-left">
+                    <p class="text-[8px] uppercase text-slate-500">Fidélité</p>
+                    <p class="text-lg font-bold">88%</p>
+                </div>
+            </div>
+            <button class="glass w-full py-4 text-xs uppercase tracking-widest font-bold border-white/40"><i class="fa-solid fa-file-excel mr-2"></i> Générer Rapport Excel</button>
+        </section>
+
+    </main>
+
+    <nav class="glass mx-4 mb-6 mt-2 flex justify-around p-4">
+        <button onclick="showPage('page2')" class="nav-item flex flex-col items-center text-slate-500">
+            <i class="fa-solid fa-grid-2 text-lg"></i>
+            <span class="text-[8px] mt-1 uppercase">Menu</span>
         </button>
-        <button onclick="document.getElementById('features').scrollIntoView({behavior: 'smooth'})" class="flex flex-col items-center text-slate-400 hover:tg-blue">
-            <i class="fa-solid fa-layer-group text-xl"></i>
-            <span class="text-[10px] mt-1">Features</span>
+        <button onclick="showPage('page5')" class="nav-item flex flex-col items-center text-slate-500">
+            <i class="fa-solid fa-euro-sign text-lg"></i>
+            <span class="text-[8px] mt-1 uppercase">Tarifs</span>
         </button>
-        <button onclick="document.getElementById('pricing').scrollIntoView({behavior: 'smooth'})" class="flex flex-col items-center text-slate-400 hover:tg-blue">
-            <i class="fa-solid fa-tag text-xl"></i>
-            <span class="text-[10px] mt-1">Tarifs</span>
+        <button onclick="showPage('page1')" class="nav-item flex flex-col items-center text-slate-500">
+            <i class="fa-solid fa-home text-lg"></i>
+            <span class="text-[8px] mt-1 uppercase">Home</span>
         </button>
-        <a href="https://t.me/your_handle" class="flex flex-col items-center text-slate-400 hover:tg-blue">
-            <i class="fa-solid fa-paper-plane text-xl"></i>
-            <span class="text-[10px] mt-1">Contact</span>
-        </a>
+        <button onclick="window.location.href='https://t.me/your_handle'" class="nav-item flex flex-col items-center text-slate-500">
+            <i class="fa-solid fa-paper-plane text-lg"></i>
+            <span class="text-[8px] mt-1 uppercase">Contact</span>
+        </button>
     </nav>
 
     <script>
-        // Placeholder for Telegram WebApp Logic
-        // let tg = window.Telegram.WebApp;
-        // tg.expand();
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active-page'));
+            pages.forEach(page => page.classList.add('hidden'));
+
+            // Show selected page
+            const activePage = document.getElementById(pageId);
+            activePage.classList.remove('hidden');
+            activePage.classList.add('active-page');
+        }
     </script>
 </body>
 </html>
