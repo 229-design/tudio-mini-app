@@ -10,21 +10,22 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
         body { background: #000; color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; height: 100vh; }
         
-        /* Glassmorphism Design System */
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .active-page { display: flex !important; animation: fadeIn 0.5s ease-out forwards; }
         
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Detail Expansion Logic */
         .detail-pane { max-height: 0; opacity: 0; overflow: hidden; transition: all 0.5s ease; }
-        .expanded .detail-pane { max-height: 1000px; opacity: 1; margin-top: 1.2rem; border-top: 1px solid rgba(255,255,255,0.05); pt-4; }
+        .expanded .detail-pane { max-height: 1000px; opacity: 1; margin-top: 1.2rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1rem; }
         .expanded .chevron { transform: rotate(180deg); }
         
-        .bw-img { filter: grayscale(1) contrast(1.2) brightness(0.7); border-radius: 16px; width: 100%; object-fit: cover; }
+        .bw-img { filter: grayscale(1) contrast(1.1) brightness(0.8); border-radius: 20px; width: 100%; object-fit: cover; }
+        .color-img { border-radius: 20px; width: 100%; object-fit: cover; transition: filter 0.3s; }
+        .glass:hover .color-img { filter: saturate(1.2); }
+
         ::-webkit-scrollbar { display: none; }
-        
-        .nav-btn.active { color: #fff; transform: translateY(-3px); text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+        .nav-btn.active { color: #fff; }
+        .nav-btn.active i { transform: translateY(-5px); filter: drop-shadow(0 0 8px #fff); }
     </style>
 </head>
 <body class="flex flex-col">
@@ -35,188 +36,182 @@
             <span class="text-[7px] text-slate-500 uppercase tracking-widest mt-1">Strasbourg • Zurich • Dubai</span>
         </div>
         <div class="flex items-center gap-2">
-            <span class="text-[8px] font-bold uppercase text-slate-400">v2.0 Beta</span>
-            <div class="h-1.5 w-1.5 rounded-full bg-white animate-pulse"></div>
+            <span class="text-[8px] font-bold uppercase text-slate-400">v2.1 Pro</span>
+            <div class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
         </div>
     </header>
 
-    <main class="flex-grow relative px-4 overflow-y-auto pb-32">
+    <main class="flex-grow relative px-4 overflow-y-auto pb-40">
         
         <section id="page1" class="page active-page flex-col items-center justify-center text-center h-full pt-4">
             <div class="glass p-1 w-full mb-8 relative">
-                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=600" class="bw-img h-72 opacity-50">
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600" class="bw-img h-80 opacity-60">
                 <div class="absolute inset-0 flex flex-col items-center justify-center p-8">
-                    <h1 class="text-5xl font-black uppercase leading-[0.8] tracking-tighter mb-4 italic">L'Elite<br>Mini App.</h1>
-                    <p class="text-[9px] uppercase tracking-[0.4em] text-white/40">Vitesse native. Design Global. Prix Disruptif.</p>
+                    <h1 class="text-6xl font-black uppercase leading-[0.8] tracking-tighter mb-4 italic">Next<br>Gen UI.</h1>
+                    <p class="text-[9px] uppercase tracking-[0.4em] text-white/60">Pixel & Brush Studio Design</p>
                 </div>
             </div>
-            <button onclick="showPage('page2', this)" class="bg-white text-black w-full py-5 rounded-2xl font-black text-xs uppercase tracking-widest shadow-2xl">Lancer l'Expérience</button>
+            <button onclick="showPage('page2', document.getElementById('btn2'))" class="bg-white text-black w-full py-5 rounded-2xl font-black text-xs uppercase tracking-widest">Explorer l'Écosystème</button>
         </section>
 
-        <section id="page2" class="page hidden flex-col space-y-4 pt-6">
+        <section id="page2" class="page hidden flex-col space-y-4 pt-4">
             <h2 class="text-[10px] font-bold uppercase text-slate-500 tracking-[0.4em]">Command Center</h2>
-            <div onclick="showPage('page4')" class="glass p-6 flex justify-between items-center group">
-                <div><h3 class="font-bold uppercase text-sm">Nos Solutions</h3><p class="text-[8px] text-slate-500 italic">Démos E-Shop, Resto, Booking</p></div>
-                <i class="fa-solid fa-layer-group text-xs opacity-20 group-hover:opacity-100"></i>
-            </div>
-            <div onclick="showPage('page3')" class="glass p-6 flex justify-between items-center group border-white/30">
-                <div><h3 class="font-bold uppercase text-sm">Catalogue Tech</h3><p class="text-[8px] text-slate-500 italic">Tout ce que la Mini App peut faire</p></div>
-                <i class="fa-solid fa-microchip text-xs opacity-20 group-hover:opacity-100"></i>
-            </div>
-            <div onclick="showPage('page5')" class="glass p-6 flex justify-between items-center group">
-                <div><h3 class="font-bold uppercase text-sm">Offres & Tarifs</h3><p class="text-[8px] text-slate-500 italic">Stratégie disruptive -50%</p></div>
-                <i class="fa-solid fa-tag text-xs opacity-20 group-hover:opacity-100"></i>
-            </div>
-        </section>
-
-        <section id="page3" class="page hidden flex-col space-y-3 pt-6 pb-10">
-            <h2 class="text-[10px] font-bold uppercase text-slate-500 tracking-[0.4em] mb-2">Arsenal Technologique Complet</h2>
             
-            <div class="glass p-5" onclick="this.classList.toggle('expanded')">
-                <div class="flex justify-between items-center"><span class="font-bold text-[11px] uppercase tracking-tighter">Paiements & Biométrie</span><i class="fa-solid fa-chevron-down chevron text-[10px] opacity-20"></i></div>
-                <div class="detail-pane text-[10px] text-slate-400 leading-relaxed">
-                    Checkout en 1 clic via **Apple/Google Pay**, Cartes Bancaires (Stripe) et support natif **Crypto (TON/USDT)**. Sécurisation par FaceID/TouchID native.
+            <div onclick="showPage('page4')" class="glass overflow-hidden relative group">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=500" class="h-40 w-full object-cover opacity-40 group-hover:scale-105 transition-transform duration-700">
+                <div class="absolute inset-0 p-6 flex flex-col justify-end bg-gradient-to-t from-black/80 to-transparent">
+                    <h3 class="font-black uppercase text-lg">Nos Solutions</h3>
+                    <p class="text-[9px] text-slate-300">Solutions prêtes à l'emploi : E-shop, Resto, Booking</p>
                 </div>
             </div>
 
-            <div class="glass p-5" onclick="this.classList.toggle('expanded')">
-                <div class="flex justify-between items-center"><span class="font-bold text-[11px] uppercase tracking-tighter">Data Analysis & Excel Sync</span><i class="fa-solid fa-chevron-down chevron text-[10px] opacity-20"></i></div>
-                <div class="detail-pane text-[10px] text-slate-400 leading-relaxed">
-                    Synchronisation bidirectionnelle avec vos **fichiers Excel/Google Sheets**. Analyse en temps réel du panier moyen, taux de fidélité et export de rapports PDF/CSV automatisés.
-                </div>
-            </div>
-
-            <div class="glass p-5" onclick="this.classList.toggle('expanded')">
-                <div class="flex justify-between items-center"><span class="font-bold text-[11px] uppercase tracking-tighter">IA Chatbot & Voice Control</span><i class="fa-solid fa-chevron-down chevron text-[10px] opacity-20"></i></div>
-                <div class="detail-pane text-[10px] text-slate-400 leading-relaxed">
-                    Assistant IA formé sur votre inventaire capable de prendre des commandes via messages vocaux ou texte 24h/24.
-                </div>
-            </div>
-
-            <div class="glass p-5" onclick="this.classList.toggle('expanded')">
-                <div class="flex justify-between items-center"><span class="font-bold text-[11px] uppercase tracking-tighter">Notifications Push Cloud</span><i class="fa-solid fa-chevron-down chevron text-[10px] opacity-20"></i></div>
-                <div class="detail-pane text-[10px] text-slate-400 leading-relaxed">
-                    Alertes sur écran de verrouillage ultra-personnalisées basées sur le comportement utilisateur ou la géolocalisation (Geofencing).
-                </div>
-            </div>
-
-            <div class="glass p-5" onclick="this.classList.toggle('expanded')">
-                <div class="flex justify-between items-center"><span class="font-bold text-[11px] uppercase tracking-tighter">Système de Fidélité QR</span><i class="fa-solid fa-chevron-down chevron text-[10px] opacity-20"></i></div>
-                <div class="detail-pane text-[10px] text-slate-400 leading-relaxed">
-                    Cartes de fidélité digitales intégrées, scan de QR codes en point de vente physique, et système de parrainage social.
+            <div onclick="showPage('page3')" class="glass overflow-hidden relative group">
+                <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=500" class="h-40 w-full object-cover opacity-40 group-hover:scale-105 transition-transform duration-700">
+                <div class="absolute inset-0 p-6 flex flex-col justify-end bg-gradient-to-t from-black/80 to-transparent">
+                    <h3 class="font-black uppercase text-lg">Arsenal Tech</h3>
+                    <p class="text-[9px] text-slate-300">Biométrie, Paiements, IA et Analytics</p>
                 </div>
             </div>
         </section>
 
-        <section id="page4" class="page hidden flex-col space-y-6 pt-6">
+        <section id="page3" class="page hidden flex-col space-y-3 pt-4">
+            <h2 class="text-[10px] font-bold uppercase text-slate-500 tracking-[0.4em] mb-2">Arsenal Technologique</h2>
+            
+            <div class="glass p-5 border-l-4 border-blue-500" onclick="this.classList.toggle('expanded')">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center gap-4">
+                        <i class="fa-solid fa-credit-card text-blue-400"></i>
+                        <span class="font-bold text-[11px] uppercase">Checkout & Basket</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-down chevron text-[10px] opacity-20"></i>
+                </div>
+                <div class="detail-pane text-[10px] text-slate-400">
+                    Système de panier natif ultra-fluide. Validation par Apple Pay / Google Pay et tunnel d'achat optimisé pour mobile.
+                </div>
+            </div>
+
+            <div class="glass p-5 border-l-4 border-purple-500" onclick="this.classList.toggle('expanded')">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center gap-4">
+                        <i class="fa-solid fa-calendar-check text-purple-400"></i>
+                        <span class="font-bold text-[11px] uppercase">Booking & Calendar</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-down chevron text-[10px] opacity-20"></i>
+                </div>
+                <div class="detail-pane text-[10px] text-slate-400">
+                    Planification temps réel, synchronisation Google Calendar et rappels automatiques par notifications push.
+                </div>
+            </div>
+
+            <div class="glass p-5 border-l-4 border-emerald-500" onclick="this.classList.toggle('expanded')">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center gap-4">
+                        <i class="fa-solid fa-map-location-dot text-emerald-400"></i>
+                        <span class="font-bold text-[11px] uppercase">Smart Map & GPS</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-down chevron text-[10px] opacity-20"></i>
+                </div>
+                <div class="detail-pane text-[10px] text-slate-400">
+                    Localisation de vos points de vente, calcul d'itinéraire et Geofencing pour promotions locales.
+                </div>
+            </div>
+
+            <div class="glass p-5 border-l-4 border-orange-500" onclick="this.classList.toggle('expanded')">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center gap-4">
+                        <i class="fa-solid fa-palette text-orange-400"></i>
+                        <span class="font-bold text-[11px] uppercase">Branding Customization</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-down chevron text-[10px] opacity-20"></i>
+                </div>
+                <div class="detail-pane text-[10px] text-slate-400">
+                    Adaptation totale à votre identité visuelle : polices, couleurs, icônes et animations sur-mesure.
+                </div>
+            </div>
+        </section>
+
+        <section id="page4" class="page hidden flex-col space-y-6 pt-4">
             <h2 class="text-[10px] font-bold uppercase text-slate-500 tracking-[0.4em]">Sandbox Solutions</h2>
-            
             <div class="glass p-4">
                 <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=400" class="bw-img h-32 mb-4">
                 <h3 class="font-black text-sm uppercase">E-Shop Retail</h3>
-                <p class="text-[9px] text-slate-500 mb-4 italic">Catalogue dynamique, gestion de stock, upsell & paiements.</p>
-                <button class="w-full py-3 border border-white/20 rounded-xl text-[9px] font-bold uppercase">Lancer Démo Shop</button>
-            </div>
-
-            <div class="glass p-4">
-                <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=400" class="bw-img h-32 mb-4">
-                <h3 class="font-black text-sm uppercase">Resto & Gastronomie</h3>
-                <p class="text-[9px] text-slate-500 mb-4 italic">Menu QR, commande à table, paiement partagé & pourboires.</p>
-                <button class="w-full py-3 border border-white/20 rounded-xl text-[9px] font-bold uppercase">Lancer Démo Resto</button>
-            </div>
-
-            <div class="glass p-4">
-                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=400" class="bw-img h-32 mb-4">
-                <h3 class="font-black text-sm uppercase">Booking & Planning</h3>
-                <p class="text-[9px] text-slate-500 mb-4 italic">Réservation de créneaux, acompte, et synchronisation agenda.</p>
-                <button class="w-full py-3 border border-white/20 rounded-xl text-[9px] font-bold uppercase">Lancer Démo Booking</button>
+                <button class="mt-2 w-full py-3 border border-white/20 rounded-xl text-[9px] font-bold uppercase">Lancer Démo</button>
             </div>
         </section>
 
-        <section id="page5" class="page hidden flex-col space-y-4 pt-6 pb-20">
-            <h2 class="text-[10px] font-bold uppercase text-slate-500 tracking-[0.4em]">Offres Disruptives</h2>
+        <section id="page5" class="page hidden flex-col space-y-4 pt-4 pb-20">
+            <h2 class="text-[10px] font-bold uppercase text-slate-500 tracking-[0.4em]">Offres & Maintenance</h2>
             
-            <div class="glass p-6" onclick="this.classList.toggle('expanded')">
-                <div class="flex justify-between items-start">
-                    <div><h3 class="font-black text-xl leading-none uppercase">Essentiel</h3><p class="text-[8px] text-slate-500 mt-1 uppercase">Vitrine & Catalogue</p></div>
-                    <div class="text-right"><p class="text-xl font-black">2 000€</p><p class="text-[7px] line-through text-slate-700 uppercase">4 000€ MARKET</p></div>
-                </div>
-                <div class="detail-pane text-[10px] text-slate-400 space-y-2">
-                    <ul class="space-y-1">
-                        <li>• Architecture Mini App Native</li>
-                        <li>• Catalogue jusqu'à 20 produits</li>
-                        <li>• Formulaire de contact intelligent</li>
-                        <li>• Setup Bot & Lancement</li>
-                    </ul>
+            <div class="glass p-6 bg-white/5 border-white/20">
+                <h3 class="font-black text-xl uppercase italic">Pack Business</h3>
+                <div class="flex justify-between items-end mt-2">
+                    <p class="text-[8px] text-slate-400 uppercase">One-time payment</p>
+                    <p class="text-2xl font-black italic">3 000€</p>
                 </div>
             </div>
 
-            <div class="glass p-6 border-white/40 bg-white/5" onclick="this.classList.toggle('expanded')">
-                <div class="flex justify-between items-start">
-                    <div><h3 class="font-black text-xl leading-none uppercase">Business</h3><p class="text-[8px] text-white/50 mt-1 uppercase">Performance & Vente</p></div>
-                    <div class="text-right"><p class="text-xl font-black">3 000€</p><p class="text-[7px] line-through text-slate-700 uppercase">6 000€ MARKET</p></div>
+            <div class="grid grid-cols-2 gap-3">
+                <div class="glass p-4 text-center">
+                    <span class="text-[8px] font-bold uppercase text-emerald-400">Standard Hosting</span>
+                    <p class="text-lg font-black mt-1">99€<span class="text-[8px] text-slate-500">/mois</span></p>
+                    <p class="text-[7px] text-slate-500 mt-2">Hébergement & Support</p>
                 </div>
-                <div class="detail-pane text-[10px] text-slate-300 space-y-2">
-                    <ul class="space-y-1 font-medium">
-                        <li>• Tout le pack Essentiel</li>
-                        <li>• Paiements Intégrés (Stripe/Crypto)</li>
-                        <li>• Panier & Notifications Push</li>
-                        <li>• Dashboard de suivi v1</li>
-                    </ul>
+                <div class="glass p-4 text-center border-white/40">
+                    <span class="text-[8px] font-bold uppercase text-orange-400">Flex Maintenance</span>
+                    <p class="text-lg font-black mt-1">25€<span class="text-[8px] text-slate-500">/pack</span></p>
+                    <p class="text-[7px] text-slate-500 mt-2">5 modifications / mois</p>
                 </div>
             </div>
 
-            <div class="glass p-6 border-white/80 bg-white/10" onclick="this.classList.toggle('expanded')">
-                <div class="flex justify-between items-start">
-                    <div><h3 class="font-black text-xl leading-none uppercase">Enterprise</h3><p class="text-[8px] text-white/80 mt-1 uppercase">Data & IA Excellence</p></div>
-                    <div class="text-right"><p class="text-xl font-black">4 500€</p><p class="text-[7px] line-through text-slate-700 uppercase">9 000€ MARKET</p></div>
-                </div>
-                <div class="detail-pane text-[10px] text-white space-y-2">
-                    <ul class="space-y-1">
-                        <li>• Tout le pack Business</li>
-                        <li>• IA Chatbot Relationnel Avancé</li>
-                        <li>• Synchronisation Excel & Data Analysis</li>
-                        <li>• Dashboard KPI haute performance</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="glass p-6 bg-white text-black text-center mt-4">
-                <h4 class="font-black text-[9px] uppercase mb-1 tracking-widest">Sérénité Totale</h4>
-                <div class="text-lg font-black mb-1">99€ / mois</div>
-                <p class="text-[8px] uppercase tracking-tighter italic">Hébergement Pro • Mises à jour • Support 24/7</p>
+            <div class="glass p-6 bg-white text-black">
+                <h4 class="font-black text-[10px] uppercase mb-1">Ultra Sérénité</h4>
+                <p class="text-[14px] font-bold">199€ / mois</p>
+                <p class="text-[8px] uppercase mt-1">Hébergement + Modifs illimitées + SEO</p>
             </div>
         </section>
 
     </main>
 
-    <nav class="fixed bottom-6 left-6 right-6 glass px-6 py-4 flex justify-between items-center z-50 border-white/20 bg-black/60 shadow-2xl">
-        <button onclick="showPage('page2', this)" class="nav-btn text-slate-500 transition-all p-2"><i class="fa-solid fa-compass text-lg"></i></button>
-        <button onclick="showPage('page3', this)" class="nav-btn text-slate-500 transition-all p-2"><i class="fa-solid fa-bolt text-lg"></i></button>
-        <button onclick="showPage('page1', this)" class="nav-btn text-slate-500 transition-all p-2 active"><i class="fa-solid fa-house text-lg"></i></button>
-        <button onclick="showPage('page4', this)" class="nav-btn text-slate-500 transition-all p-2"><i class="fa-solid fa-flask text-lg"></i></button>
-        <button onclick="showPage('page5', this)" class="nav-btn text-slate-500 transition-all p-2"><i class="fa-solid fa-tag text-lg"></i></button>
+    <nav class="fixed bottom-6 left-6 right-6 glass px-2 py-4 flex justify-between items-center z-50 border-white/20 bg-black/60 shadow-2xl">
+        <button id="btn1" onclick="showPage('page1', this)" class="nav-btn text-slate-500 transition-all flex flex-col items-center flex-1">
+            <i class="fa-solid fa-house text-sm mb-1"></i>
+            <span class="text-[7px] font-bold uppercase tracking-widest">Home</span>
+        </button>
+        <button id="btn2" onclick="showPage('page2', this)" class="nav-btn text-slate-500 transition-all flex flex-col items-center flex-1">
+            <i class="fa-solid fa-compass text-sm mb-1"></i>
+            <span class="text-[7px] font-bold uppercase tracking-widest">Explore</span>
+        </button>
+        <button id="btn3" onclick="showPage('page3', this)" class="nav-btn text-slate-500 transition-all flex flex-col items-center flex-1">
+            <i class="fa-solid fa-bolt text-sm mb-1"></i>
+            <span class="text-[7px] font-bold uppercase tracking-widest">Tech</span>
+        </button>
+        <button id="btn4" onclick="showPage('page4', this)" class="nav-btn text-slate-500 transition-all flex flex-col items-center flex-1">
+            <i class="fa-solid fa-flask text-sm mb-1"></i>
+            <span class="text-[7px] font-bold uppercase tracking-widest">Labs</span>
+        </button>
+        <button id="btn5" onclick="showPage('page5', this)" class="nav-btn text-slate-500 transition-all flex flex-col items-center flex-1">
+            <i class="fa-solid fa-tag text-sm mb-1"></i>
+            <span class="text-[7px] font-bold uppercase tracking-widest">Deals</span>
+        </button>
     </nav>
 
     <script>
         function showPage(pageId, btn) {
-            // Hide all pages
             document.querySelectorAll('.page').forEach(p => {
                 p.classList.add('hidden');
                 p.classList.remove('active-page');
             });
-            
-            // Show target page
             const activePage = document.getElementById(pageId);
             activePage.classList.remove('hidden');
             activePage.classList.add('active-page');
 
-            // Handle Nav Styling
             if(btn) {
                 document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
             }
         }
+        // Set home active by default
+        document.getElementById('btn1').classList.add('active');
     </script>
 </body>
 </html>
