@@ -2,363 +2,243 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Studio Digital - Nos Services</title>
-    <!-- Telegram WebApp SDK -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Mini App Preview</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        :root {
-            --tg-bg: var(--tg-theme-bg-color, #000000);
-            --tg-text: var(--tg-theme-text-color, #ffffff);
-            --tg-hint: var(--tg-theme-hint-color, rgba(255,255,255,0.5));
-            --tg-accent: #ffffff;
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
-        }
-
-        * {
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
-            box-sizing: border-box;
-        }
-
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        
         body {
-            background-color: #000;
-            color: var(--tg-text);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: white;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow: hidden;
+            margin: 0;
         }
 
-        .iphone-shell {
-            width: 100vw;
-            height: 100vh;
-            background-color: var(--tg-bg);
+        .iphone-frame {
+            width: 375px;
+            height: 812px;
+            background: #000;
+            border: 12px solid #1e293b;
+            border-radius: 40px;
             position: relative;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        @media (min-width: 500px) {
-            .iphone-shell {
-                width: 393px; 
-                height: 852px; 
-                border: 10px solid #1c1c1e;
-                border-radius: 50px;
-                box-shadow: 0 50px 100px -20px rgba(0,0,0,0.8);
-            }
-            .iphone-shell::after {
-                content: '';
-                position: absolute;
-                top: 10px;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 110px;
-                height: 32px;
-                background: #000;
-                border-radius: 20px;
-                z-index: 1000;
-            }
-        }
-
-        .page {
-            position: absolute;
-            inset: 0;
-            transition: transform 0.6s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.4s ease;
-            z-index: 10;
-            background: var(--tg-bg);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .page-hidden-right { transform: translateX(100%); opacity: 0; pointer-events: none; }
-        .page-active { transform: translateX(0); opacity: 1; pointer-events: auto; }
-
-        .scroll-container {
-            flex: 1;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-            padding-bottom: 120px;
-            overscroll-behavior: contain;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
         .glass {
-            background: var(--glass);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .tab-indicator {
-            transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+        .page {
+            display: none;
+            height: 100%;
+            overflow-y: auto;
+            padding: 20px;
+            animation: fadeIn 0.4s ease-out;
         }
 
-        .bottom-nav {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 85px;
-            z-index: 100;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding-bottom: env(safe-area-inset-bottom);
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid var(--glass-border);
+        .page.active {
+            display: block;
         }
 
-        .service-card {
-            transition: transform 0.3s cubic-bezier(0.2, 1, 0.3, 1), background 0.3s ease;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .service-card:active {
-            transform: scale(0.97);
-            background: rgba(255, 255, 255, 0.08);
+        .btn-glow {
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+            transition: all 0.3s;
         }
 
-        .gradient-text {
-            background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.5) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .btn-glow:hover {
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.8);
+            transform: scale(1.02);
         }
 
-        ::-webkit-scrollbar { display: none; }
+        /* Hide scrollbar */
+        .page::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body>
 
-    <div class="iphone-shell">
-        
-        <!-- PAGE D'ACCUEIL -->
-        <section id="page-welcome" class="page page-active flex flex-col justify-end p-8 pb-36">
-            <div class="absolute inset-0 z-0">
-                <img src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=1000&auto=format&fit=crop" 
-                     class="w-full h-full object-cover opacity-50 grayscale" alt="Fond">
-                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+<div class="iphone-frame">
+    <div id="page1" class="page active flex flex-col items-center justify-center text-center">
+        <div class="w-20 h-20 bg-blue-600 rounded-2xl mb-8 flex items-center justify-center btn-glow">
+            <i data-lucide="zap" class="text-white w-10 h-10"></i>
+        </div>
+        <h1 class="text-2xl font-bold mb-4">L'avenir de votre commerce sur Telegram.</h1>
+        <p class="text-gray-400 mb-8 text-sm">Mini Apps ultra-rapides, intuitives et sur-mesure pour booster vos ventes.</p>
+        <button onclick="nav(2)" class="btn-glow bg-blue-600 px-8 py-3 rounded-full font-semibold">
+            Découvrir l'expérience
+        </button>
+    </div>
+
+    <div id="page2" class="page">
+        <h2 class="text-xl font-bold mb-6 mt-4 text-center">Command Center</h2>
+        <div onclick="nav(4)" class="glass p-5 rounded-2xl mb-4 cursor-pointer">
+            <i data-lucide="layout" class="text-blue-400 mb-2"></i>
+            <h3 class="font-bold">Nos Solutions</h3>
+            <p class="text-xs text-gray-400">Démos E-shop, Resto & Rental</p>
+        </div>
+        <div onclick="nav(3)" class="glass p-5 rounded-2xl mb-4 cursor-pointer">
+            <i data-lucide="cpu" class="text-purple-400 mb-2"></i>
+            <h3 class="font-bold">Catalogue de Fonctionnalités</h3>
+            <p class="text-xs text-gray-400">Découvrez nos outils techniques</p>
+        </div>
+        <div onclick="nav(5)" class="glass p-5 rounded-2xl mb-4 cursor-pointer border-blue-500/50">
+            <i data-lucide="tag" class="text-green-400 mb-2"></i>
+            <h3 class="font-bold">Offres & Tarifs</h3>
+            <p class="text-xs text-gray-400">Stratégie agressive à -30%</p>
+        </div>
+        <button onclick="nav(6)" class="w-full py-3 text-xs text-gray-500 underline mt-4">Dashboard Admin Demo</button>
+    </div>
+
+    <div id="page3" class="page">
+        <button onclick="nav(2)" class="mb-4 text-gray-400"><i data-lucide="chevron-left"></i></button>
+        <h2 class="text-xl font-bold mb-6 text-center">Tech Buffet</h2>
+        <div class="space-y-3">
+            <div class="glass p-3 rounded-xl flex items-center gap-4">
+                <i data-lucide="credit-card" class="text-blue-400"></i>
+                <div><p class="text-sm font-semibold">Paiements Sécurisés</p><p class="text-[10px] text-gray-500">Stripe, Apple & Google Pay</p></div>
             </div>
-            
-            <div class="relative z-10 space-y-8">
-                <div class="w-16 h-16 bg-white flex items-center justify-center rounded-2xl mb-4">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                </div>
-                <div class="space-y-2">
-                    <h1 class="text-5xl font-extrabold tracking-tighter leading-none gradient-text">STUDIO<br>DIGITAL</h1>
-                    <p class="text-white/40 text-[11px] font-bold uppercase tracking-[0.3em]">Écosystème Telegram // 2026</p>
-                </div>
-                <button onclick="changePage('shop')" class="w-full bg-white text-black py-4 rounded-2xl font-bold uppercase tracking-widest text-[11px] transition-transform active:scale-95">
-                    Découvrir nos offres
-                </button>
+            <div class="glass p-3 rounded-xl flex items-center gap-4">
+                <i data-lucide="bell" class="text-yellow-400"></i>
+                <div><p class="text-sm font-semibold">Notifications Push</p><p class="text-[10px] text-gray-500">Direct sur l'écran verrouillé</p></div>
             </div>
-        </section>
+            <div class="glass p-3 rounded-xl flex items-center gap-4">
+                <i data-lucide="map-pin" class="text-red-400"></i>
+                <div><p class="text-sm font-semibold">Géolocalisation</p><p class="text-[10px] text-gray-500">Suivi de livraison temps réel</p></div>
+            </div>
+            <div class="glass p-3 rounded-xl flex items-center gap-4">
+                <i data-lucide="qr-code" class="text-green-400"></i>
+                <div><p class="text-sm font-semibold">QR Code Intelligent</p><p class="text-[10px] text-gray-500">Scan-to-order immédiat</p></div>
+            </div>
+            <div class="glass p-3 rounded-xl flex items-center gap-4">
+                <i data-lucide="bot" class="text-indigo-400"></i>
+                <div><p class="text-sm font-semibold">Chatbot IA 24/7</p><p class="text-[10px] text-gray-500">Service client automatisé</p></div>
+            </div>
+        </div>
+    </div>
 
-        <!-- PAGE DES OFFRES -->
-        <section id="page-shop" class="page page-hidden-right">
-            <nav class="p-6 pb-2 flex justify-between items-center bg-black/80 backdrop-blur-xl z-50">
-                <div>
-                    <h2 class="text-xl font-bold tracking-tighter uppercase leading-none">Studio</h2>
-                    <span class="text-[8px] text-white/40 uppercase font-black tracking-widest">Solutions Sur-Mesure</span>
+    <div id="page4" class="page">
+        <button onclick="nav(2)" class="mb-4 text-gray-400"><i data-lucide="chevron-left"></i></button>
+        <h2 class="text-xl font-bold mb-6 text-center">Interactive Sandbox</h2>
+        <div class="space-y-4">
+            <div class="bg-gradient-to-r from-blue-900/40 to-black p-4 rounded-2xl border border-blue-500/20">
+                <h3 class="font-bold mb-2">E-Shop Demo</h3>
+                <div class="grid grid-cols-2 gap-2 mb-2">
+                    <div class="h-16 bg-white/10 rounded-lg flex items-center justify-center text-[10px]">Produit A</div>
+                    <div class="h-16 bg-white/10 rounded-lg flex items-center justify-center text-[10px]">Produit B</div>
                 </div>
-                <button onclick="toggleCart()" class="relative glass p-3 rounded-full">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-                    <span id="cart-badge" class="hidden absolute -top-1 -right-1 bg-white text-black text-[9px] font-bold w-4 h-4 flex items-center justify-center rounded-full">0</span>
-                </button>
-            </nav>
+                <button class="w-full py-2 bg-blue-600 rounded-lg text-xs font-bold">Checkout Mockup</button>
+            </div>
+            <div class="bg-gradient-to-r from-green-900/40 to-black p-4 rounded-2xl border border-green-500/20">
+                <h3 class="font-bold mb-2">Restaurant Demo</h3>
+                <p class="text-[10px] text-gray-400 mb-2">Sélection Table 4 - Menu Digital</p>
+                <button class="w-full py-2 bg-green-600 rounded-lg text-xs font-bold">Réserver</button>
+            </div>
+        </div>
+    </div>
 
-            <div class="scroll-container px-6 pt-2">
-                <!-- Onglets -->
-                <div class="sticky top-0 z-50 py-4 bg-black">
-                    <div class="relative flex gap-1 glass p-1 rounded-2xl">
-                        <button onclick="switchCategory(this, 'offres')" class="relative flex-1 py-2 text-[10px] font-bold z-10 text-white transition-all uppercase tracking-widest">Nos Offres</button>
-                        <button onclick="switchCategory(this, 'support')" class="relative flex-1 py-2 text-[10px] font-bold z-10 text-white/40 transition-all uppercase tracking-widest">Support</button>
-                        <div id="tab-indicator" class="tab-indicator absolute inset-y-1 left-1 bg-white/10 border border-white/20 rounded-xl z-0" style="width: 49%; transform: translateX(0);"></div>
-                    </div>
-                </div>
-
-                <!-- Liste des Services -->
-                <div id="service-grid" class="space-y-4 pb-20">
-                    <!-- Les cartes seront injectées ici -->
-                </div>
-                
-                <div class="mt-8 p-6 glass rounded-[2rem] border-white/5 text-center">
-                    <p class="text-[10px] text-white/30 uppercase font-bold tracking-widest mb-2">Infrastructures</p>
-                    <p class="text-xs text-white/60">Hébergement & Maintenance serveur : <span class="text-white font-bold">25€/mois</span> pour toutes les offres.</p>
+    <div id="page5" class="page">
+        <button onclick="nav(2)" class="mb-4 text-gray-400"><i data-lucide="chevron-left"></i></button>
+        <h2 class="text-xl font-bold mb-6 text-center">Nos Packs (-30%)</h2>
+        <div class="space-y-4">
+            <div class="glass p-4 rounded-2xl border-l-4 border-blue-500">
+                <h3 class="font-bold text-blue-400">ESSENTIEL</h3>
+                <p class="text-xs text-gray-400 mb-2">Vitrine & Catalogue</p>
+                <div class="flex justify-between items-end">
+                    <span class="text-xs line-through text-gray-600">3 000€</span>
+                    <span class="text-xl font-bold">2 100€</span>
                 </div>
             </div>
-        </section>
-
-        <!-- NAVIGATION BASSE -->
-        <nav class="bottom-nav">
-            <button onclick="changePage('welcome')" class="nav-item active" id="nav-home">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-            </button>
-            <button onclick="changePage('shop')" class="nav-item" id="nav-shop">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
-            </button>
-            <button onclick="toggleCart()" class="nav-item">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-            </button>
-        </nav>
-
-        <!-- PANIER / SELECTION -->
-        <div id="cart-drawer" class="fixed inset-0 z-[200] translate-y-full transition-transform duration-500 flex flex-col">
-            <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="toggleCart()"></div>
-            <div class="mt-auto glass h-[75%] rounded-t-[3rem] p-8 flex flex-col relative z-10 border-t border-white/10">
-                <div class="w-10 h-1 bg-white/20 rounded-full mx-auto mb-8"></div>
-                <h2 class="text-3xl font-bold uppercase tracking-tighter mb-6">Récapitulatif</h2>
-                <div id="cart-items" class="flex-grow overflow-y-auto space-y-4"></div>
-                <div class="pt-6 mt-6 border-t border-white/5">
-                    <div class="flex justify-between items-end mb-6">
-                        <span class="text-white/40 text-[10px] font-bold uppercase tracking-widest">Budget Prévisionnel</span>
-                        <span id="cart-total" class="text-4xl font-bold tracking-tighter">0€</span>
-                    </div>
-                    <button onclick="checkout()" class="w-full bg-white text-black py-4 rounded-2xl font-bold uppercase text-[11px] tracking-widest">Confirmer le devis</button>
+            <div class="glass p-4 rounded-2xl border-l-4 border-purple-500 scale-105 shadow-xl">
+                <h3 class="font-bold text-purple-400">BUSINESS</h3>
+                <p class="text-xs text-gray-400 mb-2">Paiements & Push</p>
+                <div class="flex justify-between items-end">
+                    <span class="text-xs line-through text-gray-600">5 500€</span>
+                    <span class="text-xl font-bold">3 850€</span>
+                </div>
+            </div>
+            <div class="glass p-4 rounded-2xl border-l-4 border-yellow-500">
+                <h3 class="font-bold text-yellow-400">PREMIUM+</h3>
+                <p class="text-xs text-gray-400 mb-2">KPI Dashboard & AI</p>
+                <div class="flex justify-between items-end">
+                    <span class="text-xs line-through text-gray-600">8 500€</span>
+                    <span class="text-xl font-bold">5 950€</span>
                 </div>
             </div>
         </div>
-
+        <button onclick="nav(7)" class="w-full mt-6 py-4 bg-white text-black font-bold rounded-xl">Prendre RDV</button>
     </div>
 
-    <script>
-        const tg = window.Telegram.WebApp;
-        tg.expand();
+    <div id="page6" class="page">
+        <button onclick="nav(2)" class="mb-4 text-gray-400"><i data-lucide="chevron-left"></i></button>
+        <h2 class="text-xl font-bold mb-4">Admin Insights</h2>
+        <div class="glass p-4 rounded-xl mb-4">
+            <p class="text-xs text-gray-400">Ventes cette semaine</p>
+            <div class="h-24 flex items-end gap-1 mt-2">
+                <div class="flex-1 bg-blue-500 h-[40%] rounded-t-sm"></div>
+                <div class="flex-1 bg-blue-500 h-[60%] rounded-t-sm"></div>
+                <div class="flex-1 bg-blue-500 h-[30%] rounded-t-sm"></div>
+                <div class="flex-1 bg-blue-500 h-[80%] rounded-t-sm"></div>
+                <div class="flex-1 bg-blue-500 h-[50%] rounded-t-sm"></div>
+            </div>
+        </div>
+        <div class="space-y-2 mb-4">
+            <div class="flex justify-between text-[10px] glass p-2 rounded-lg">
+                <span>Jean D. (Client)</span>
+                <span class="text-green-400">+142,00€</span>
+            </div>
+            <div class="flex justify-between text-[10px] glass p-2 rounded-lg">
+                <span>Marie L. (Client)</span>
+                <span class="text-green-400">+89,00€</span>
+            </div>
+        </div>
+        <button class="w-full py-3 border border-dashed border-gray-600 rounded-xl text-xs flex items-center justify-center gap-2">
+            <i data-lucide="file-spreadsheet" class="w-4 h-4"></i> Générer Rapport Excel
+        </button>
+    </div>
 
-        const catalog = {
-            offres: [
-                { id: 'off1', name: "Bot Menu Classique", price: 300, desc: "L'essentiel pour démarrer. Menu interactif simple pour guider vos clients.", img: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400" },
-                { id: 'off2', name: "Mini App Standard", price: 500, desc: "Véritable application web intégrée. Design fluide, sans téléchargement.", img: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400" },
-                { id: 'off3', name: "Mini App Premium", price: 890, desc: "Le top du top. Système de modification intégré pour une gestion simplifiée.", img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400" }
-            ],
-            support: [
-                { id: 'sup1', name: "Modif à la carte", price: 5, desc: "Par modification. Idéal pour les besoins ponctuels. Facturé en fin de mois.", img: "https://images.unsplash.com/photo-1454165833767-027ffea9e787?w=400" },
-                { id: 'sup2', name: "Pack 10 Modifs", price: 40, desc: "Pack prépayé pour vos mises à jour régulières (textes, prix, produits).", img: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=400" },
-                { id: 'sup3', name: "Support Illimité", price: 75, desc: "Forfait mensuel. Modifiez votre bot autant que vous le souhaitez.", img: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=400" },
-                { id: 'sup4', name: "Illimité Annuel", price: 500, desc: "L'offre la plus rentable (⭐️). Un an de tranquillité totale.", img: "https://images.unsplash.com/photo-1434626881859-194d67b2b86f?w=400" }
-            ]
-        };
+    <div id="page7" class="page flex flex-col items-center justify-center text-center">
+        <h2 class="text-2xl font-bold mb-4">Prêt à transformer votre entreprise ?</h2>
+        <p class="text-gray-400 text-sm mb-8 px-4">Réservez votre démonstration personnalisée dès maintenant.</p>
+        
+        <div class="w-full space-y-3 px-4">
+            <button class="w-full py-4 bg-blue-600 rounded-2xl flex items-center justify-center gap-2 font-semibold">
+                <i data-lucide="calendar"></i> Calendly Meeting
+            </button>
+            <div class="grid grid-cols-2 gap-3">
+                <button class="py-3 bg-green-600/20 rounded-xl flex items-center justify-center gap-2 text-xs border border-green-600/30">
+                    <i data-lucide="phone"></i> WhatsApp
+                </button>
+                <button class="py-3 bg-blue-400/20 rounded-xl flex items-center justify-center gap-2 text-xs border border-blue-400/30">
+                    <i data-lucide="send"></i> Telegram
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
-        let cart = [];
-        let currentTab = 'offres';
+<script>
+    lucide.createIcons();
 
-        function changePage(id) {
-            document.querySelectorAll('.page').forEach(p => p.className = 'page page-hidden-right');
-            document.getElementById(`page-${id}`).className = 'page page-active';
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            const navId = id === 'welcome' ? 'nav-home' : 'nav-shop';
-            document.getElementById(navId).classList.add('active');
+    function nav(pageNumber) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('page' + pageNumber).classList.add('active');
+        lucide.createIcons(); // Refresh icons for new page
+    }
+</script>
 
-            if(id === 'shop') {
-                tg.BackButton.show();
-                tg.BackButton.onClick(() => changePage('welcome'));
-            } else {
-                tg.BackButton.hide();
-            }
-        }
-
-        function switchCategory(el, cat) {
-            currentTab = cat;
-            document.querySelectorAll('#page-shop button.z-10').forEach(b => b.classList.replace('text-white', 'text-white/40'));
-            el.classList.replace('text-white/40', 'text-white');
-            const indicator = document.getElementById('tab-indicator');
-            indicator.style.transform = `translateX(${el.offsetLeft - el.parentElement.offsetLeft}px)`;
-            renderServices(cat);
-            tg.HapticFeedback.impactOccurred('light');
-        }
-
-        function renderServices(cat) {
-            const grid = document.getElementById('service-grid');
-            grid.innerHTML = catalog[cat].map(s => {
-                const inCart = cart.find(c => c.id === s.id);
-                return `
-                    <div class="service-card glass p-4 rounded-[2rem] flex flex-col gap-4 overflow-hidden" onclick="toggleSelection('${cat}', '${s.id}')">
-                        <div class="h-32 rounded-2xl overflow-hidden relative">
-                            <img src="${s.img}" class="w-full h-full object-cover grayscale opacity-50" alt="${s.name}">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-                            <div class="absolute bottom-3 left-4">
-                                <span class="text-[10px] font-bold uppercase tracking-widest text-white/50">${cat === 'offres' ? 'Solutions' : 'Maintenance'}</span>
-                                <h3 class="text-sm font-bold">${s.name}</h3>
-                            </div>
-                        </div>
-                        <div class="px-1 flex justify-between items-center">
-                            <p class="text-[11px] leading-relaxed text-white/40 max-w-[70%]">${s.desc}</p>
-                            <div class="flex flex-col items-end">
-                                <span class="text-lg font-bold tracking-tighter">${s.price}€</span>
-                                <span class="text-[9px] font-bold text-white/20 uppercase">${inCart ? 'Sélectionné' : 'Détails'}</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function toggleSelection(cat, id) {
-            const item = catalog[cat].find(i => i.id === id);
-            const index = cart.findIndex(c => c.id === id);
-            
-            if(index > -1) {
-                cart.splice(index, 1);
-            } else {
-                cart.push(item);
-            }
-            
-            tg.HapticFeedback.selectionChanged();
-            updateCart();
-            renderServices(currentTab);
-        }
-
-        function updateCart() {
-            const total = cart.reduce((s, i) => s + i.price, 0);
-            const badge = document.getElementById('cart-badge');
-            badge.innerText = cart.length;
-            badge.classList.toggle('hidden', cart.length === 0);
-            document.getElementById('cart-total').innerText = `${total}€`;
-
-            const container = document.getElementById('cart-items');
-            if(cart.length === 0) {
-                container.innerHTML = `<div class="py-20 text-center text-white/10 italic text-sm">Aucun service sélectionné.</div>`;
-                return;
-            }
-            container.innerHTML = cart.map(item => `
-                <div class="flex justify-between items-center glass p-5 rounded-2xl">
-                    <div>
-                        <h4 class="text-xs font-bold uppercase">${item.name}</h4>
-                        <p class="text-[10px] text-white/30 uppercase tracking-widest">Prestation Studio</p>
-                    </div>
-                    <span class="text-sm font-bold">${item.price}€</span>
-                </div>
-            `).join('');
-        }
-
-        function toggleCart() {
-            document.getElementById('cart-drawer').classList.toggle('translate-y-full');
-            tg.HapticFeedback.impactOccurred('light');
-        }
-
-        function checkout() {
-            if(cart.length === 0) return;
-            tg.showConfirm("Envoyer cette demande de devis au studio ?", (ok) => {
-                if(ok) {
-                    tg.showAlert("Devis transmis ! Un conseiller vous contactera sous 24h pour discuter de votre projet.");
-                    cart = [];
-                    updateCart();
-                    renderServices(currentTab);
-                    if(!document.getElementById('cart-drawer').classList.contains('translate-y-full')) toggleCart();
-                }
-            });
-        }
-
-        window.onload = () => {
-            renderServices('offres');
-        };
-    </script>
 </body>
 </html>
