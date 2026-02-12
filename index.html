@@ -3,163 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mini App B&W Showcase</title>
+    <title>Pixel & Brush | Telegram Mini App</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background: #000; color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; }
-        
-        /* Glassmorphism Effect */
-        .glass {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-        }
-
-        .active-page { display: flex !important; animation: fadeIn 0.3s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .btn-black { background: #fff; color: #000; transition: all 0.2s; }
-        .btn-black:active { transform: scale(0.95); background: #e0e0e0; }
-        
-        .nav-item.active { color: #fff; border-bottom: 2px solid #fff; }
+        body { background: #000; color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; height: 100vh; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; transition: all 0.3s ease; }
+        .active-page { display: flex !important; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .detail-content { max-height: 0; opacity: 0; overflow: hidden; transition: all 0.4s ease; }
+        .expanded .detail-content { max-height: 500px; opacity: 1; margin-top: 15px; }
+        .expanded i.chevron { transform: rotate(180deg); }
+        .btn-white { background: #fff; color: #000; font-weight: 800; border-radius: 12px; }
     </style>
 </head>
-<body class="h-screen flex flex-col">
+<body class="flex flex-col">
 
-    <header class="p-6 text-center">
-        <h1 class="text-xl font-light tracking-widest uppercase">Pixel & Brush</h1>
+    <header class="p-6 flex justify-between items-center border-b border-white/5">
+        <span class="text-xs tracking-[0.3em] font-bold uppercase">Pixel & Brush</span>
+        <div class="h-2 w-2 rounded-full bg-green-500 shadow-[0_0_10px_#22c55e]"></div>
     </header>
 
-    <main class="flex-grow relative px-4 overflow-y-auto">
+    <main class="flex-grow relative px-4 overflow-y-auto pb-24">
         
-        <section id="page1" class="page active-page flex-col items-center justify-center text-center h-full">
-            <div class="glass p-10 mb-8">
-                <i class="fa-solid fa-microchip text-5xl mb-6"></i>
-                <h2 class="text-3xl font-bold mb-2 uppercase tracking-tighter">L'Avenir Digital</h2>
-                <p class="text-slate-400 text-sm">Mini Apps sur-mesure pour commerces visionnaires.</p>
+        <section id="page1" class="page active-page flex-col items-center justify-center text-center h-full space-y-6">
+            <div class="glass p-8 w-full">
+                <h1 class="text-4xl font-black uppercase leading-none mb-4">L'Elite de<br>Telegram.</h1>
+                <p class="text-slate-500 text-sm">Design Global. Architecture Digitale. <br>Performance à -50% du marché.</p>
             </div>
-            <button onclick="showPage('page2')" class="btn-black px-10 py-4 rounded-full font-bold uppercase text-xs tracking-widest">
-                Entrer dans l'expérience
-            </button>
+            <button onclick="showPage('page2')" class="btn-white w-full py-4 text-xs uppercase tracking-widest">Lancer l'Interface</button>
         </section>
 
-        <section id="page2" class="page hidden flex-col space-y-4 pt-4">
-            <h2 class="text-sm font-bold uppercase tracking-widest text-slate-500 mb-2">Centre de Commande</h2>
-            <div onclick="showPage('page4')" class="glass p-5 flex items-center justify-between">
-                <div class="flex items-center gap-4"><i class="fa-solid fa-play"></i> <span>Nos Démos</span></div>
-                <i class="fa-solid fa-chevron-right text-slate-500"></i>
+        <section id="page2" class="page hidden flex-col space-y-3 pt-6">
+            <h2 class="text-[10px] uppercase tracking-widest text-slate-500 mb-2">Navigation Principale</h2>
+            <div onclick="showPage('page3')" class="glass p-5 flex justify-between items-center">
+                <span>Catalogue de Fonctionnalités</span><i class="fa-solid fa-arrow-right text-xs opacity-30"></i>
             </div>
-            <div onclick="showPage('page3')" class="glass p-5 flex items-center justify-between">
-                <div class="flex items-center gap-4"><i class="fa-solid fa-list-check"></i> <span>Le Tech Buffet</span></div>
-                <i class="fa-solid fa-chevron-right text-slate-500"></i>
+            <div onclick="showPage('page5')" class="glass p-5 flex justify-between items-center border-white/30">
+                <span>Offres Stratégiques</span><i class="fa-solid fa-arrow-right text-xs opacity-30"></i>
             </div>
-            <div onclick="showPage('page5')" class="glass p-5 flex items-center justify-between border-white/40">
-                <div class="flex items-center gap-4"><i class="fa-solid fa-tag"></i> <span>Offres & Tarifs (-50%)</span></div>
-                <i class="fa-solid fa-chevron-right text-slate-500"></i>
-            </div>
-            <div onclick="showPage('page6')" class="glass p-5 flex items-center justify-between">
-                <div class="flex items-center gap-4"><i class="fa-solid fa-chart-line"></i> <span>Dashboard & Data</span></div>
-                <i class="fa-solid fa-chevron-right text-slate-500"></i>
+            <div onclick="showPage('page6')" class="glass p-5 flex justify-between items-center">
+                <span>Showcase Data & Admin</span><i class="fa-solid fa-arrow-right text-xs opacity-30"></i>
             </div>
         </section>
 
-        <section id="page3" class="page hidden flex-col space-y-3 pt-4 pb-20">
-            <h2 class="text-sm font-bold uppercase text-slate-500 mb-2">Arsenal Technologique</h2>
-            <div class="glass p-4">
-                <h4 class="font-bold">Paiements Sécurisés</h4>
-                <p class="text-xs text-slate-400">Integration Stripe, Apple Pay & Crypto.</p>
+        <section id="page3" class="page hidden flex-col space-y-4 pt-6">
+            <h2 class="text-[10px] uppercase tracking-widest text-slate-500 mb-2">Tech Buffet (Cliquez pour détailler)</h2>
+            
+            <div class="glass p-5" onclick="this.classList.toggle('expanded')">
+                <div class="flex justify-between items-center">
+                    <span class="font-bold">Paiements Sécurisés</span>
+                    <i class="fa-solid fa-chevron-down chevron text-xs transition-transform"></i>
+                </div>
+                <div class="detail-content text-xs text-slate-400 leading-relaxed">
+                    Intégration native avec Stripe, Apple Pay, et Google Pay. Nous supportons aussi les paiements en Cryptomonnaies (TON, USDT) pour une liberté totale de transaction.
+                </div>
             </div>
-            <div class="glass p-4">
-                <h4 class="font-bold">Push Notifications</h4>
-                <p class="text-xs text-slate-400">Taux d'ouverture 98% sur l'écran verrouillé.</p>
+
+            <div class="glass p-5" onclick="this.classList.toggle('expanded')">
+                <div class="flex justify-between items-center">
+                    <span class="font-bold">Notifications Push</span>
+                    <i class="fa-solid fa-chevron-down chevron text-xs transition-transform"></i>
+                </div>
+                <div class="detail-content text-xs text-slate-400">
+                    Ciblez vos clients directement sur leur écran de verrouillage. Idéal pour les rappels de paniers abandonnés, promotions flash ou confirmations de commande.
+                </div>
             </div>
-            <div class="glass p-4">
-                <h4 class="font-bold">Fidélité Digitale</h4>
-                <p class="text-xs text-slate-400">Points et récompenses automatisés.</p>
-            </div>
-            <div class="glass p-4 border-white/30">
-                <h4 class="font-bold">Chatbot IA 24/7</h4>
-                <p class="text-xs text-slate-400">Service client autonome intégré.</p>
+
+            <div class="glass p-5" onclick="this.classList.toggle('expanded')">
+                <div class="flex justify-between items-center">
+                    <span class="font-bold">IA & Chatbot 24/7</span>
+                    <i class="fa-solid fa-chevron-down chevron text-xs transition-transform"></i>
+                </div>
+                <div class="detail-content text-xs text-slate-400">
+                    Un agent intelligent qui connaît vos stocks et vos horaires. Réduit la charge de support client de 80% en répondant aux FAQs instantanément.
+                </div>
             </div>
         </section>
 
-        <section id="page5" class="page hidden flex-col space-y-4 pt-4 pb-20">
-            <h2 class="text-sm font-bold uppercase text-slate-500">Offres Irréfutables</h2>
-            <div class="glass p-6 border-white/20">
-                <span class="text-[10px] border border-white px-2 py-0.5 rounded-full uppercase">Essentiel</span>
-                <div class="flex justify-between items-end mt-4">
-                    <h3 class="text-2xl font-bold">1 500€</h3>
-                    <span class="text-slate-500 line-through text-xs">3 000€</span>
+        <section id="page5" class="page hidden flex-col space-y-4 pt-6">
+            <h2 class="text-[10px] uppercase tracking-widest text-slate-500 mb-2">Offres Disruptives (-50%)</h2>
+
+            <div class="glass p-6 border-white/40" onclick="this.classList.toggle('expanded')">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-black text-lg">PACK BUSINESS</h3>
+                        <p class="text-[10px] text-slate-500 uppercase">Le Best-Seller</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-xl font-bold">3 000€</div>
+                        <div class="text-[8px] line-through text-slate-600">6 000€ MARKET</div>
+                    </div>
                 </div>
-                <p class="text-[10px] mt-2 text-slate-400 italic">Vitrine, 20 produits, Bot setup.</p>
-            </div>
-            <div class="glass p-6 border-white/60 bg-white/10">
-                <span class="text-[10px] bg-white text-black px-2 py-0.5 rounded-full font-bold uppercase tracking-tighter">Business</span>
-                <div class="flex justify-between items-end mt-4">
-                    <h3 class="text-2xl font-bold">3 000€</h3>
-                    <span class="text-slate-500 line-through text-xs">6 000€</span>
+                <div class="detail-content border-t border-white/5 pt-4">
+                    <ul class="text-[11px] space-y-2 text-slate-300">
+                        <li><i class="fa-solid fa-check mr-2 text-white"></i> Paiements Intégrés</li>
+                        <li><i class="fa-solid fa-check mr-2 text-white"></i> Gestion de Panier Fluide</li>
+                        <li><i class="fa-solid fa-check mr-2 text-white"></i> Dashboard de base (Ventes/Clients)</li>
+                        <li><i class="fa-solid fa-check mr-2 text-white"></i> Notifications Push Illimitées</li>
+                    </ul>
                 </div>
-                <p class="text-[10px] mt-2 text-slate-200 font-medium italic">Paiements, Panier, Push, Dashboard.</p>
             </div>
         </section>
 
-        <section id="page6" class="page hidden flex-col space-y-4 pt-4 text-center">
-            <h2 class="text-sm font-bold uppercase text-slate-500 mb-2">Le Cerveau Admin</h2>
-            <div class="glass p-6">
-                <p class="text-[10px] text-slate-400 mb-4 uppercase">Chiffre d'affaires mensuel</p>
-                <div class="text-3xl font-light tracking-tighter">14,280.00 €</div>
-                <div class="mt-4 h-1 w-full bg-slate-800 rounded-full overflow-hidden">
-                    <div class="bg-white h-full w-[70%]"></div>
+        <section id="page7" class="page hidden flex-col items-center justify-center text-center space-y-6 pt-10">
+            <div class="glass p-8 w-full">
+                <h2 class="text-xl font-bold mb-2">Prêt à transformer votre entreprise ?</h2>
+                <p class="text-xs text-slate-400 mb-6">Réservez une présentation PowerPoint détaillée ou discutons en direct.</p>
+                
+                <div class="space-y-3">
+                    <a href="https://calendly.com" class="block w-full py-4 glass text-[10px] uppercase font-bold hover:bg-white hover:text-black">Prendre RDV (Calendly)</a>
+                    <a href="https://t.me/ahmed_handle" class="block w-full py-4 glass text-[10px] uppercase font-bold hover:bg-white hover:text-black">Direct Telegram</a>
+                    <a href="https://wa.me/33746548474" class="block w-full py-4 glass text-[10px] uppercase font-bold hover:bg-white hover:text-black">WhatsApp Chat</a>
                 </div>
             </div>
-            <div class="grid grid-cols-2 gap-4 text-left">
-                <div class="glass p-4">
-                    <p class="text-[8px] uppercase text-slate-500">Panier Moyen</p>
-                    <p class="text-lg font-bold">42 €</p>
-                </div>
-                <div class="glass p-4 text-left">
-                    <p class="text-[8px] uppercase text-slate-500">Fidélité</p>
-                    <p class="text-lg font-bold">88%</p>
-                </div>
-            </div>
-            <button class="glass w-full py-4 text-xs uppercase tracking-widest font-bold border-white/40"><i class="fa-solid fa-file-excel mr-2"></i> Générer Rapport Excel</button>
         </section>
 
     </main>
 
-    <nav class="glass mx-4 mb-6 mt-2 flex justify-around p-4">
-        <button onclick="showPage('page2')" class="nav-item flex flex-col items-center text-slate-500">
-            <i class="fa-solid fa-grid-2 text-lg"></i>
-            <span class="text-[8px] mt-1 uppercase">Menu</span>
-        </button>
-        <button onclick="showPage('page5')" class="nav-item flex flex-col items-center text-slate-500">
-            <i class="fa-solid fa-euro-sign text-lg"></i>
-            <span class="text-[8px] mt-1 uppercase">Tarifs</span>
-        </button>
-        <button onclick="showPage('page1')" class="nav-item flex flex-col items-center text-slate-500">
-            <i class="fa-solid fa-home text-lg"></i>
-            <span class="text-[8px] mt-1 uppercase">Home</span>
-        </button>
-        <button onclick="window.location.href='https://t.me/your_handle'" class="nav-item flex flex-col items-center text-slate-500">
-            <i class="fa-solid fa-paper-plane text-lg"></i>
-            <span class="text-[8px] mt-1 uppercase">Contact</span>
-        </button>
+    <nav class="fixed bottom-6 left-4 right-4 glass p-3 flex justify-around items-center z-50 border-white/20">
+        <button onclick="showPage('page2')" class="p-2 opacity-50 hover:opacity-100"><i class="fa-solid fa-compass"></i></button>
+        <button onclick="showPage('page5')" class="p-2 opacity-50 hover:opacity-100"><i class="fa-solid fa-tag"></i></button>
+        <button onclick="showPage('page1')" class="p-2 opacity-100"><i class="fa-solid fa-house"></i></button>
+        <button onclick="showPage('page6')" class="p-2 opacity-50 hover:opacity-100"><i class="fa-solid fa-chart-pie"></i></button>
+        <button onclick="showPage('page7')" class="p-2 opacity-50 hover:opacity-100"><i class="fa-solid fa-comment-dots"></i></button>
     </nav>
 
     <script>
         function showPage(pageId) {
-            // Hide all pages
-            const pages = document.querySelectorAll('.page');
-            pages.forEach(page => page.classList.remove('active-page'));
-            pages.forEach(page => page.classList.add('hidden'));
+            document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+            
+            const active = document.getElementById(pageId);
+            active.classList.remove('hidden');
+            active.classList.add('active-page');
 
-            // Show selected page
-            const activePage = document.getElementById(pageId);
-            activePage.classList.remove('hidden');
-            activePage.classList.add('active-page');
+            // Reset navigation icons opacity (Optional enhancement)
         }
     </script>
 </body>
