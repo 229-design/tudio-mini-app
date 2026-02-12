@@ -3,130 +3,205 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Pixel & Brush | Telegram Mini App</title>
+    <title>Pixel & Brush | Premium Mini App</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
         body { background: #000; color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; height: 100vh; }
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; transition: all 0.3s ease; }
-        .active-page { display: flex !important; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .detail-content { max-height: 0; opacity: 0; overflow: hidden; transition: all 0.4s ease; }
-        .expanded .detail-content { max-height: 500px; opacity: 1; margin-top: 15px; }
-        .expanded i.chevron { transform: rotate(180deg); }
-        .btn-white { background: #fff; color: #000; font-weight: 800; border-radius: 12px; }
+        
+        /* Glassmorphism Logic */
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden; }
+        .glass:active { transform: scale(0.98); background: rgba(255, 255, 255, 0.07); }
+        
+        .active-page { display: flex !important; animation: slideUp 0.5s ease; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Expandable Details */
+        .detail-pane { max-height: 0; opacity: 0; transition: all 0.5s ease; }
+        .expanded .detail-pane { max-height: 1000px; opacity: 1; padding-top: 1.5rem; }
+        .expanded .chevron { transform: rotate(180deg); }
+        
+        .bw-img { filter: grayscale(1) contrast(1.2) brightness(0.8); transition: filter 0.3s; }
+        .glass:hover .bw-img { filter: grayscale(0.5) contrast(1); }
+
+        ::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body class="flex flex-col">
 
-    <header class="p-6 flex justify-between items-center border-b border-white/5">
-        <span class="text-xs tracking-[0.3em] font-bold uppercase">Pixel & Brush</span>
-        <div class="h-2 w-2 rounded-full bg-green-500 shadow-[0_0_10px_#22c55e]"></div>
+    <header class="p-6 flex justify-between items-center z-50">
+        <div class="flex flex-col">
+            <span class="text-xs font-black tracking-[0.4em] uppercase">Pixel & Brush</span>
+            <span class="text-[8px] text-slate-500 uppercase tracking-widest">Digital Architecture Studio</span>
+        </div>
+        <i class="fa-solid fa-ellipsis-vertical opacity-30"></i>
     </header>
 
-    <main class="flex-grow relative px-4 overflow-y-auto pb-24">
+    <main class="flex-grow relative px-4 overflow-y-auto pb-32">
         
-        <section id="page1" class="page active-page flex-col items-center justify-center text-center h-full space-y-6">
-            <div class="glass p-8 w-full">
-                <h1 class="text-4xl font-black uppercase leading-none mb-4">L'Elite de<br>Telegram.</h1>
-                <p class="text-slate-500 text-sm">Design Global. Architecture Digitale. <br>Performance à -50% du marché.</p>
+        <section id="page1" class="page active-page flex-col items-center justify-center text-center h-full pt-10">
+            <div class="glass p-1 w-full mb-8 relative">
+                <img src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=600&auto=format&fit=crop" class="bw-img rounded-[22px] w-full h-64 object-cover opacity-60">
+                <div class="absolute inset-0 flex flex-col items-center justify-center p-6">
+                    <h1 class="text-4xl font-black uppercase leading-[0.9] mb-2 tracking-tighter">L'Avenir<br>sur Telegram</h1>
+                    <p class="text-[10px] uppercase tracking-[0.2em] text-white/70">Ultra-rapide. Intuitif. Sur-mesure.</p>
+                </div>
             </div>
-            <button onclick="showPage('page2')" class="btn-white w-full py-4 text-xs uppercase tracking-widest">Lancer l'Interface</button>
+            <button onclick="showPage('page2')" class="bg-white text-black w-full py-5 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl">Découvrir l'Expérience</button>
         </section>
 
-        <section id="page2" class="page hidden flex-col space-y-3 pt-6">
-            <h2 class="text-[10px] uppercase tracking-widest text-slate-500 mb-2">Navigation Principale</h2>
-            <div onclick="showPage('page3')" class="glass p-5 flex justify-between items-center">
-                <span>Catalogue de Fonctionnalités</span><i class="fa-solid fa-arrow-right text-xs opacity-30"></i>
+        <section id="page2" class="page hidden flex-col space-y-4 pt-6">
+            <h2 class="text-[10px] font-bold uppercase text-slate-500 tracking-[0.3em]">Menu Principal</h2>
+            <div onclick="showPage('page4')" class="glass p-6 flex justify-between items-center group">
+                <div>
+                    <h3 class="font-bold uppercase text-sm">Nos Démos</h3>
+                    <p class="text-[9px] text-slate-500">Tester E-Shop, Resto, Rental</p>
+                </div>
+                <i class="fa-solid fa-flask text-xs opacity-30 group-hover:opacity-100"></i>
             </div>
-            <div onclick="showPage('page5')" class="glass p-5 flex justify-between items-center border-white/30">
-                <span>Offres Stratégiques</span><i class="fa-solid fa-arrow-right text-xs opacity-30"></i>
+            <div onclick="showPage('page3')" class="glass p-6 flex justify-between items-center group border-white/30">
+                <div>
+                    <h3 class="font-bold uppercase text-sm">Le Tech Buffet</h3>
+                    <p class="text-[9px] text-slate-500">Découvrez l'arsenal complet</p>
+                </div>
+                <i class="fa-solid fa-microchip text-xs opacity-30 group-hover:opacity-100"></i>
             </div>
-            <div onclick="showPage('page6')" class="glass p-5 flex justify-between items-center">
-                <span>Showcase Data & Admin</span><i class="fa-solid fa-arrow-right text-xs opacity-30"></i>
+            <div onclick="showPage('page5')" class="glass p-6 flex justify-between items-center group">
+                <div>
+                    <h3 class="font-bold uppercase text-sm">Offres & Tarifs</h3>
+                    <p class="text-[9px] text-slate-500">Stratégie disruptive -50%</p>
+                </div>
+                <i class="fa-solid fa-tag text-xs opacity-30 group-hover:opacity-100"></i>
             </div>
         </section>
 
         <section id="page3" class="page hidden flex-col space-y-4 pt-6">
-            <h2 class="text-[10px] uppercase tracking-widest text-slate-500 mb-2">Tech Buffet (Cliquez pour détailler)</h2>
+            <h2 class="text-[10px] font-bold uppercase text-slate-500 tracking-[0.3em]">Arsenal Technologique</h2>
             
             <div class="glass p-5" onclick="this.classList.toggle('expanded')">
                 <div class="flex justify-between items-center">
-                    <span class="font-bold">Paiements Sécurisés</span>
-                    <i class="fa-solid fa-chevron-down chevron text-xs transition-transform"></i>
+                    <div class="flex items-center gap-4">
+                        <i class="fa-solid fa-credit-card text-xs"></i>
+                        <span class="font-bold text-xs uppercase">Paiements Sécurisés</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-down chevron text-[10px] opacity-30 transition-transform"></i>
                 </div>
-                <div class="detail-content text-xs text-slate-400 leading-relaxed">
-                    Intégration native avec Stripe, Apple Pay, et Google Pay. Nous supportons aussi les paiements en Cryptomonnaies (TON, USDT) pour une liberté totale de transaction.
-                </div>
-            </div>
-
-            <div class="glass p-5" onclick="this.classList.toggle('expanded')">
-                <div class="flex justify-between items-center">
-                    <span class="font-bold">Notifications Push</span>
-                    <i class="fa-solid fa-chevron-down chevron text-xs transition-transform"></i>
-                </div>
-                <div class="detail-content text-xs text-slate-400">
-                    Ciblez vos clients directement sur leur écran de verrouillage. Idéal pour les rappels de paniers abandonnés, promotions flash ou confirmations de commande.
+                <div class="detail-pane">
+                    <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=400&auto=format&fit=crop" class="bw-img rounded-xl mb-4 h-32 w-full object-cover">
+                    <p class="text-[11px] text-slate-400 leading-relaxed">
+                        Intégrez Stripe pour les cartes bancaires ou utilisez la puissance de la blockchain avec **TON & USDT**. 
+                        Virements instantanés et frais réduits. Checkout en moins de 3 clics.
+                    </p>
                 </div>
             </div>
 
             <div class="glass p-5" onclick="this.classList.toggle('expanded')">
                 <div class="flex justify-between items-center">
-                    <span class="font-bold">IA & Chatbot 24/7</span>
-                    <i class="fa-solid fa-chevron-down chevron text-xs transition-transform"></i>
+                    <div class="flex items-center gap-4">
+                        <i class="fa-solid fa-robot text-xs"></i>
+                        <span class="font-bold text-xs uppercase">Chatbot IA 24/7</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-down chevron text-[10px] opacity-30 transition-transform"></i>
                 </div>
-                <div class="detail-content text-xs text-slate-400">
-                    Un agent intelligent qui connaît vos stocks et vos horaires. Réduit la charge de support client de 80% en répondant aux FAQs instantanément.
+                <div class="detail-pane">
+                    <p class="text-[11px] text-slate-400 leading-relaxed">
+                        Un assistant intelligent formé sur vos données. Il gère les réservations, répond aux questions sur les produits et oriente le client sans intervention humaine.
+                    </p>
                 </div>
+            </div>
+            
+            <p class="text-[9px] text-center text-slate-600 italic mt-4">Et bien plus : Géo-localisation, QR Codes intelligents, Systèmes de fidélité...</p>
+        </section>
+
+        <section id="page4" class="page hidden flex-col space-y-4 pt-6">
+            <h2 class="text-[10px] font-bold uppercase text-slate-500 tracking-[0.3em]">Sandbox Interactive</h2>
+            <div class="glass p-4">
+                <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=400&auto=format&fit=crop" class="bw-img rounded-xl mb-4 h-40 w-full object-cover">
+                <h3 class="font-bold text-sm mb-1 uppercase">E-Shop Demo</h3>
+                <p class="text-[10px] text-slate-500 mb-4">Gestion de catalogue, panier et checkout complet.</p>
+                <button class="w-full py-3 border border-white/20 rounded-xl text-[10px] font-bold uppercase">Lancer la Démo</button>
+            </div>
+            <div class="glass p-4">
+                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=400&auto=format&fit=crop" class="bw-img rounded-xl mb-4 h-40 w-full object-cover">
+                <h3 class="font-bold text-sm mb-1 uppercase">Resto & Booking</h3>
+                <p class="text-[10px] text-slate-500 mb-4">Menu digital, choix de table et réservation de créneaux.</p>
+                <button class="w-full py-3 border border-white/20 rounded-xl text-[10px] font-bold uppercase">Lancer la Démo</button>
             </div>
         </section>
 
         <section id="page5" class="page hidden flex-col space-y-4 pt-6">
-            <h2 class="text-[10px] uppercase tracking-widest text-slate-500 mb-2">Offres Disruptives (-50%)</h2>
-
-            <div class="glass p-6 border-white/40" onclick="this.classList.toggle('expanded')">
+            <h2 class="text-[10px] font-bold uppercase text-slate-500 tracking-[0.3em]">Packs Stratégiques</h2>
+            
+            <div class="glass p-6 border-white/10" onclick="this.classList.toggle('expanded')">
                 <div class="flex justify-between items-start">
                     <div>
-                        <h3 class="font-black text-lg">PACK BUSINESS</h3>
-                        <p class="text-[10px] text-slate-500 uppercase">Le Best-Seller</p>
+                        <span class="text-[8px] bg-white text-black px-2 py-0.5 rounded font-black mb-2 inline-block">50% DISCOUNT</span>
+                        <h3 class="font-black text-xl leading-none">PACK ESSENTIEL</h3>
                     </div>
                     <div class="text-right">
-                        <div class="text-xl font-bold">3 000€</div>
-                        <div class="text-[8px] line-through text-slate-600">6 000€ MARKET</div>
+                        <p class="text-xl font-black">1 500€</p>
+                        <p class="text-[8px] text-slate-600 line-through">3 000€ MARKET</p>
                     </div>
                 </div>
-                <div class="detail-content border-t border-white/5 pt-4">
-                    <ul class="text-[11px] space-y-2 text-slate-300">
-                        <li><i class="fa-solid fa-check mr-2 text-white"></i> Paiements Intégrés</li>
-                        <li><i class="fa-solid fa-check mr-2 text-white"></i> Gestion de Panier Fluide</li>
-                        <li><i class="fa-solid fa-check mr-2 text-white"></i> Dashboard de base (Ventes/Clients)</li>
-                        <li><i class="fa-solid fa-check mr-2 text-white"></i> Notifications Push Illimitées</li>
+                <div class="detail-pane">
+                    <ul class="text-[11px] space-y-2 text-slate-400 mb-4 border-t border-white/5 pt-4">
+                        <li>• Mini App Vitrine personnalisée</li>
+                        <li>• Catalogue jusqu'à 20 produits</li>
+                        <li>• Formulaire de contact intelligent</li>
+                        <li>• Installation du Bot & Hébergement</li>
                     </ul>
+                    <button class="w-full py-3 bg-white text-black rounded-xl text-[10px] font-black uppercase">Choisir ce pack</button>
+                </div>
+            </div>
+
+            <div class="glass p-6 border-white/60 bg-white/5" onclick="this.classList.toggle('expanded')">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <span class="text-[8px] border border-white px-2 py-0.5 rounded font-black mb-2 inline-block uppercase">Plus Populaire</span>
+                        <h3 class="font-black text-xl leading-none uppercase">Pack Business</h3>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xl font-black">3 000€</p>
+                        <p class="text-[8px] text-slate-600 line-through">6 000€ MARKET</p>
+                    </div>
+                </div>
+                <div class="detail-pane">
+                    <ul class="text-[11px] space-y-2 text-slate-200 mb-4 border-t border-white/10 pt-4">
+                        <li>• Tout le Pack Essentiel</li>
+                        <li>• Systèmes de Paiement (Stripe/Crypto)</li>
+                        <li>• Gestion de Panier & Notifications Push</li>
+                        <li>• Dashboard Admin de base</li>
+                    </ul>
+                    <button class="w-full py-3 bg-white text-black rounded-xl text-[10px] font-black uppercase">Choisir ce pack</button>
                 </div>
             </div>
         </section>
 
-        <section id="page7" class="page hidden flex-col items-center justify-center text-center space-y-6 pt-10">
+        <section id="page7" class="page hidden flex-col items-center justify-center text-center h-full pt-10">
             <div class="glass p-8 w-full">
-                <h2 class="text-xl font-bold mb-2">Prêt à transformer votre entreprise ?</h2>
-                <p class="text-xs text-slate-400 mb-6">Réservez une présentation PowerPoint détaillée ou discutons en direct.</p>
+                <div class="w-16 h-16 bg-white rounded-full mx-auto mb-6 flex items-center justify-center">
+                    <i class="fa-solid fa-paper-plane text-black text-2xl"></i>
+                </div>
+                <h2 class="text-xl font-black uppercase mb-2">Prêt à dominer ?</h2>
+                <p class="text-xs text-slate-400 mb-8">Discutons de votre projet et de la mise en place de votre infrastructure digitale.</p>
                 
-                <div class="space-y-3">
-                    <a href="https://calendly.com" class="block w-full py-4 glass text-[10px] uppercase font-bold hover:bg-white hover:text-black">Prendre RDV (Calendly)</a>
-                    <a href="https://t.me/ahmed_handle" class="block w-full py-4 glass text-[10px] uppercase font-bold hover:bg-white hover:text-black">Direct Telegram</a>
-                    <a href="https://wa.me/33746548474" class="block w-full py-4 glass text-[10px] uppercase font-bold hover:bg-white hover:text-black">WhatsApp Chat</a>
+                <div class="grid grid-cols-1 gap-3">
+                    <a href="https://calendly.com" class="py-4 glass border-white/30 text-[10px] font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-colors">Réserver un Call (30min)</a>
+                    <a href="https://t.me/ahmed_handle" class="py-4 glass border-white/10 text-[10px] font-bold uppercase tracking-widest">Message Direct Telegram</a>
+                    <a href="https://wa.me/33746548474" class="py-4 glass border-white/10 text-[10px] font-bold uppercase tracking-widest">WhatsApp Business</a>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <nav class="fixed bottom-6 left-4 right-4 glass p-3 flex justify-around items-center z-50 border-white/20">
-        <button onclick="showPage('page2')" class="p-2 opacity-50 hover:opacity-100"><i class="fa-solid fa-compass"></i></button>
-        <button onclick="showPage('page5')" class="p-2 opacity-50 hover:opacity-100"><i class="fa-solid fa-tag"></i></button>
-        <button onclick="showPage('page1')" class="p-2 opacity-100"><i class="fa-solid fa-house"></i></button>
-        <button onclick="showPage('page6')" class="p-2 opacity-50 hover:opacity-100"><i class="fa-solid fa-chart-pie"></i></button>
-        <button onclick="showPage('page7')" class="p-2 opacity-50 hover:opacity-100"><i class="fa-solid fa-comment-dots"></i></button>
+    <nav class="fixed bottom-6 left-6 right-6 glass px-6 py-4 flex justify-between items-center z-50 border-white/20 bg-black/80 shadow-2xl">
+        <button onclick="showPage('page2')" class="text-slate-500 hover:text-white transition-colors p-2"><i class="fa-solid fa-compass text-lg"></i></button>
+        <button onclick="showPage('page3')" class="text-slate-500 hover:text-white transition-colors p-2"><i class="fa-solid fa-bolt text-lg"></i></button>
+        <button onclick="showPage('page1')" class="text-white p-2 scale-125"><i class="fa-solid fa-house text-lg"></i></button>
+        <button onclick="showPage('page5')" class="text-slate-500 hover:text-white transition-colors p-2"><i class="fa-solid fa-tag text-lg"></i></button>
+        <button onclick="showPage('page7')" class="text-slate-500 hover:text-white transition-colors p-2"><i class="fa-solid fa-comment-dots text-lg"></i></button>
     </nav>
 
     <script>
@@ -138,7 +213,10 @@
             active.classList.remove('hidden');
             active.classList.add('active-page');
 
-            // Reset navigation icons opacity (Optional enhancement)
+            // Reset navigation highlight (simple version)
+            const btns = document.querySelectorAll('nav button');
+            btns.forEach(b => b.classList.replace('text-white', 'text-slate-500'));
+            event.currentTarget.classList.replace('text-slate-500', 'text-white');
         }
     </script>
 </body>
